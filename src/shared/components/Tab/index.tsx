@@ -48,7 +48,7 @@ export const FullWidthTabs: React.FC<ITabProps> = ({ tabs }) => {
   }
 
   return (
-    <Box sx={{ width: 500 }}>
+    <Box position="relative" zIndex="2" sx={{ width: 500 }}>
       <AppBar position="static">
         <Tabs
           value={value}
