@@ -1,7 +1,11 @@
 import { Box } from '@mui/material'
-import { LoginForm } from '../../shared/components/LoginForm'
-import { RegisterForm } from '../../shared/components/RegisterForm'
-import { FullWidthTabs, FloatSquaresAnimation } from '../../shared/components'
+
+import {
+  FullWidthTabs,
+  FloatSquaresAnimation,
+  RegisterForm,
+  LoginForm
+} from '../../shared/components'
 import { useAppDispatch } from '../../shared/hooks'
 import { login, register } from '../../shared/slices/userSlice'
 
