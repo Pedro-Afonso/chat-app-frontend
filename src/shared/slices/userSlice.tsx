@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { IRegisterForm, TAuth, IAuthState } from '../interface'
+import { IRegisterForm, TAuth, IAuthState, ILoginForm } from '../interface'
 import { userService } from '../services/userService'
 
 const localUser = sessionStorage.getItem('user')
@@ -30,23 +30,35 @@ export const register = createAsyncThunk<
   return res
 })
 
+// Login with email and password
+export const login = createAsyncThunk<
+  TAuth,
+  ILoginForm,
+  { rejectValue: string }
+>('user/login', async (data, { rejectWithValue }) => {
+  const res = await userService.login(data)
+
+  // Check for errors
+  if ('errors' in res) {
+    return rejectWithValue(res.errors[0])
+  }
+
+  return res
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    reset: state => {
-      state.user = null
-      state.error = null
-      state.loading = false
-      state.success = false
-    }
+    reset: () => initialState
   },
   extraReducers: builder => {
     builder
       .addCase(register.pending, state => {
+        state.auth = null
         state.user = null
         state.error = null
-        state.loading = true
+        state.loading = false
         state.success = false
       })
       .addCase(register.fulfilled, (state, action) => {
@@ -55,6 +67,22 @@ export const userSlice = createSlice({
         state.success = true
       })
       .addCase(register.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
+      .addCase(login.pending, state => {
+        state.auth = null
+        state.user = null
+        state.error = null
+        state.loading = false
+        state.success = false
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.auth = action.payload
+        state.loading = false
+        state.success = true
+      })
+      .addCase(login.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
