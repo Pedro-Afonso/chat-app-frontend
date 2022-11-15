@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { LoginForm } from '../../shared/components/LoginForm'
 import { RegisterForm } from '../../shared/components/RegisterForm'
-import { FullWidthTabs } from '../../shared/components'
+import { FullWidthTabs, FloatSquaresAnimation } from '../../shared/components'
 import { useAppDispatch } from '../../shared/hooks'
 import { login, register } from '../../shared/slices/userSlice'
 
@@ -24,7 +24,13 @@ export const Home = () => {
   }
 
   return (
-    <Box>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      position="relative"
+    >
       <FullWidthTabs
         tabs={[
           {
@@ -39,6 +45,7 @@ export const Home = () => {
           }
         ]}
       />
+      <FloatSquaresAnimation />
     </Box>
   )
 }
