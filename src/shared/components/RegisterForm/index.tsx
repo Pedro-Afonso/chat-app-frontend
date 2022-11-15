@@ -1,22 +1,41 @@
 import { Box, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { VTextField } from '../Forms'
+import * as yup from 'yup'
+import { useYupValidationResolver } from '../../hooks'
 
-interface IFormProps {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+const formSchema = yup.object({
+  name: yup
+    .string()
+    .required('Crie um nome legal')
+    .min(3, 'Precisa ter no mínimo 3 caracteres.'),
+  email: yup
+    .string()
+    .email('Insira um email válido.')
+    .required('O email é obrigatório.'),
+  password: yup
+    .string()
+    .min(8, 'A senha precisa de no mínimo 8 caracteres.')
+    .required('A senha é obrigatória'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'As senhas devem ser iguais')
+    .required('Confirme sua senha')
+})
+
+type TForm = yup.InferType<typeof formSchema>
 
 interface IRegisterFormProps {
-  handleRegister: (data: IFormProps) => void
+  handleRegister: (data: TForm) => void
 }
 
 export const RegisterForm: React.FC<IRegisterFormProps> = ({
   handleRegister
 }) => {
-  const { handleSubmit, control } = useForm<IFormProps>({
+  const resolver = useYupValidationResolver(formSchema)
+
+  const { handleSubmit, control } = useForm<TForm>({
+    resolver,
     defaultValues: {
       name: '',
       email: '',
@@ -25,7 +44,7 @@ export const RegisterForm: React.FC<IRegisterFormProps> = ({
     }
   })
 
-  const onSubmit = (data: IFormProps) => {
+  const onSubmit = (data: TForm) => {
     handleRegister(data)
   }
 
