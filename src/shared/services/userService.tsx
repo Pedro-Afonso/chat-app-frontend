@@ -1,4 +1,4 @@
-import { IRegisterForm, TAuthRes } from '../interface'
+import { ILoginForm, IRegisterForm, TAuthRes } from '../interface'
 import { tryCatchService } from '../utils'
 import { Api } from './api'
 
@@ -14,4 +14,16 @@ const register = async (user: IRegisterForm) => {
   })
 }
 
-export const userService = { register }
+// Login with email and password
+const login = async (user: ILoginForm) => {
+  return tryCatchService(async () => {
+    const { data } = await Api.post<TAuthRes>('/api/users/login', user)
+
+    if ('token' in data) {
+      sessionStorage.setItem('user', JSON.stringify(data))
+    }
+    return data
+  })
+}
+
+export const userService = { register, login }
