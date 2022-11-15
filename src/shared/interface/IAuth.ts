@@ -1,5 +1,15 @@
 export type TAuth = { _id: string; token: string }
 export type TErrors = { errors: string[] }
+export type TUser = {
+  _id: string
+  name: string
+  email: string
+  profileImage?: string
+  bio?: string
+  createdAt: Date
+  updatedAt: Date
+  __v?: number
+}
 
 //  Requests
 export interface IRegisterForm {
@@ -19,7 +29,8 @@ export type TAuthRes = TAuth | TErrors
 
 // Redux State
 export interface IAuthState {
-  user: TAuth | null
+  auth: TAuth | null
+  user: TUser | null
   error: string | null
   success: boolean
   loading: boolean
