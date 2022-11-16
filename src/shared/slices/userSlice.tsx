@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { IRegisterForm, TAuth, IAuthState, ILoginForm } from '../interface'
+import {
+  IRegisterForm,
+  TAuth,
+  IAuthState,
+  ILoginForm,
+  TUser
+} from '../interface'
 import { userService } from '../services/userService'
 
 const localUser = sessionStorage.getItem('user')
@@ -37,6 +43,24 @@ export const login = createAsyncThunk<
   { rejectValue: string }
 >('user/login', async (data, { rejectWithValue }) => {
   const res = await userService.login(data)
+
+  // Check for errors
+  if ('errors' in res) {
+    return rejectWithValue(res.errors[0])
+  }
+
+  return res
+})
+
+// Get the logged in user's profile information
+export const getCurrentUser = createAsyncThunk<
+  TUser,
+  void,
+  { rejectValue: string }
+>('user/getcurrentuser', async (_, { rejectWithValue, getState }) => {
+  const { user } = getState() as { user: IAuthState }
+
+  const res = await userService.getCurrentUser(user.auth?.token || '')
 
   // Check for errors
   if ('errors' in res) {
@@ -90,6 +114,21 @@ export const userSlice = createSlice({
         state.success = true
       })
       .addCase(login.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
+      .addCase(getCurrentUser.pending, state => {
+        state.user = null
+        state.error = null
+        state.loading = false
+        state.success = false
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.user = action.payload
+        state.loading = false
+        state.success = true
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
