@@ -48,7 +48,7 @@ const getCurrentUser = async (token: string) => {
 // Search for users by name or email
 const searchUsers = async (token: string, query: string) => {
   return tryCatchService(async () => {
-    const { data } = await Api.get<TSearchRes>(`/api/users/search?q${query}`, {
+    const { data } = await Api.get<TSearchRes>(`/api/users/search?q=${query}`, {
       headers: {
         Authorization: `Basic ${token}`
       }
