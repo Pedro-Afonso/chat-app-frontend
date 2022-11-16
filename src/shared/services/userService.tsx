@@ -1,4 +1,9 @@
-import { ILoginForm, IRegisterForm, TAuthRes } from '../interface'
+import {
+  ILoginForm,
+  IRegisterForm,
+  TAuthRes,
+  TCurrentUserRes
+} from '../interface'
 import { tryCatchService } from '../utils'
 import { Api } from './api'
 
@@ -26,4 +31,17 @@ const login = async (user: ILoginForm) => {
   })
 }
 
-export const userService = { register, login }
+// Get the logged in user's profile information
+const getCurrentUser = async (token: string) => {
+  return tryCatchService(async () => {
+    const { data } = await Api.get<TCurrentUserRes>('/api/users/', {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    })
+
+    return data
+  })
+}
+
+export const userService = { register, login, getCurrentUser }
