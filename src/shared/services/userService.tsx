@@ -2,7 +2,8 @@ import {
   ILoginForm,
   IRegisterForm,
   TAuthRes,
-  TCurrentUserRes
+  TCurrentUserRes,
+  TSearchRes
 } from '../interface'
 import { tryCatchService } from '../utils'
 import { Api } from './api'
@@ -44,4 +45,17 @@ const getCurrentUser = async (token: string) => {
   })
 }
 
-export const userService = { register, login, getCurrentUser }
+// Search for users by name or email
+const searchUsers = async (token: string, query: string) => {
+  return tryCatchService(async () => {
+    const { data } = await Api.get<TSearchRes>(`/api/users/search?q${query}`, {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    })
+
+    return data
+  })
+}
+
+export const userService = { register, login, getCurrentUser, searchUsers }
