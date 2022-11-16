@@ -27,6 +27,7 @@ export interface ILoginForm {
 // Responses
 export type TAuthRes = TAuth | TErrors
 export type TCurrentUserRes = TUser | TErrors
+export type TSearchRes = TUser[] | TErrors
 
 // Redux State
 export interface IAuthState {
