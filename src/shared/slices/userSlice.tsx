@@ -71,6 +71,24 @@ export const getCurrentUser = createAsyncThunk<
   return res
 })
 
+// Search for users by name or email
+export const searchUsers = createAsyncThunk<
+  TUser[],
+  string,
+  { rejectValue: string }
+>('user/searchusers', async (query, { rejectWithValue, getState }) => {
+  const { user } = getState() as { user: IAuthState }
+
+  const res = await userService.searchUsers(user.auth?.token || '', query)
+
+  // Check for errors
+  if ('errors' in res) {
+    return rejectWithValue(res.errors[0])
+  }
+
+  return res
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -91,7 +109,7 @@ export const userSlice = createSlice({
         state.auth = null
         state.user = null
         state.error = null
-        state.loading = false
+        state.loading = true
         state.success = false
       })
       .addCase(register.fulfilled, (state, action) => {
@@ -107,7 +125,7 @@ export const userSlice = createSlice({
         state.auth = null
         state.user = null
         state.error = null
-        state.loading = false
+        state.loading = true
         state.success = false
       })
       .addCase(login.fulfilled, (state, action) => {
@@ -122,7 +140,7 @@ export const userSlice = createSlice({
       .addCase(getCurrentUser.pending, state => {
         state.user = null
         state.error = null
-        state.loading = false
+        state.loading = true
         state.success = false
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
@@ -131,6 +149,21 @@ export const userSlice = createSlice({
         state.success = true
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
+      .addCase(searchUsers.pending, state => {
+        state.users = []
+        state.error = null
+        state.loading = true
+        state.success = false
+      })
+      .addCase(searchUsers.fulfilled, (state, action) => {
+        state.users = action.payload
+        state.loading = false
+        state.success = true
+      })
+      .addCase(searchUsers.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
