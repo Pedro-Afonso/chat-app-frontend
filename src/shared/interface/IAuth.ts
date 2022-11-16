@@ -32,6 +32,7 @@ export type TCurrentUserRes = TUser | TErrors
 export interface IAuthState {
   auth: TAuth | null
   user: TUser | null
+  users: TUser[]
   error: string | null
   success: boolean
   loading: boolean

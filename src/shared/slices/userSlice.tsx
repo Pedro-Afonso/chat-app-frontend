@@ -15,6 +15,7 @@ const auth: TAuth | null = localUser ? JSON.parse(localUser) : null
 const initialState: IAuthState = {
   auth,
   user: null,
+  users: [],
   error: null,
   success: false,
   loading: false
@@ -78,6 +79,7 @@ export const userSlice = createSlice({
     logout: state => {
       state.auth = null
       state.user = null
+      state.users = []
       state.error = null
       state.loading = false
       state.success = false
