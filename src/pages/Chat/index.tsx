@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { AppDrawer } from '../../shared/components/AppDrawer'
-import { AppNavBar } from '../../shared/components/AppNavBar'
-import { useAppDispatch, useAppSelector } from '../../shared/hooks'
+
 import {
   getCurrentUser,
   logout as logoutAction
 } from '../../shared/slices/userSlice'
+import { useAppDispatch, useAppSelector } from '../../shared/hooks'
+import { AppDrawer } from '../../shared/components/AppDrawer'
+import { AppNavBar } from '../../shared/components/AppNavBar'
+import { AppSearchBar } from '../../shared/components'
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
@@ -33,7 +35,9 @@ export const Chat = () => {
         setAnchorElNav={setAnchorElNav}
         anchorElNav={anchorElNav}
         userList={users}
-      />
+      >
+        <AppSearchBar />
+      </AppDrawer>
     </>
   )
 }

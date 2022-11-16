@@ -8,11 +8,6 @@ import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-import { AppSearchBar } from '../AppSearchBar'
-
-/* const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-  setAnchorElNav(event.currentTarget)
-} */
 interface userProps {
   name: string
   email: string
@@ -23,12 +18,14 @@ interface IAppDrawerProps {
   anchorElNav: null | HTMLElement
   setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>
   userList: userProps[]
+  children: React.ReactNode
 }
 
 export const AppDrawer: React.FC<IAppDrawerProps> = ({
   anchorElNav,
   setAnchorElNav,
-  userList
+  userList,
+  children
 }) => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
@@ -36,9 +33,7 @@ export const AppDrawer: React.FC<IAppDrawerProps> = ({
 
   return (
     <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
-      <ListItem>
-        <AppSearchBar />
-      </ListItem>
+      <ListItem>{children}</ListItem>
       <Divider />
       <Box
         sx={{ width: 300 }}
