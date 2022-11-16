@@ -79,6 +79,8 @@ export const searchUsers = createAsyncThunk<
 >('user/searchusers', async (query, { rejectWithValue, getState }) => {
   const { user } = getState() as { user: IAuthState }
 
+  if (query.trim() === '') return []
+
   const res = await userService.searchUsers(user.auth?.token || '', query)
 
   // Check for errors
