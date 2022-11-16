@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
-import { useAppDispatch } from '../../shared/hooks'
+import { useAppDispatch, useAppSelector } from '../../shared/hooks'
 import {
   getCurrentUser,
   logout as logoutAction
@@ -9,6 +9,8 @@ import {
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
+
+  const users = useAppSelector(state => state.user.users)
 
   const logout = () => dispatch(logoutAction())
 
@@ -19,11 +21,6 @@ export const Chat = () => {
     dispatch(getCurrentUser())
   }, [dispatch])
 
-  const userList = [
-    { name: 'José', email: 'jose@email.com' },
-    { name: 'Maria', email: 'maria@email.com' },
-    { name: 'Joao', email: 'joao@email.com' }
-  ]
   return (
     <>
       <AppNavBar
@@ -35,7 +32,7 @@ export const Chat = () => {
       <AppDrawer
         setAnchorElNav={setAnchorElNav}
         anchorElNav={anchorElNav}
-        userList={userList}
+        userList={users}
       />
     </>
   )
