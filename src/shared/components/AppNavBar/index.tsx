@@ -15,12 +15,14 @@ interface IAppNavBarProps {
   setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>
   anchorElUser: null | HTMLElement
   setAnchorElUser: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+  logout: () => void
 }
 
 export const AppNavBar: React.FC<IAppNavBarProps> = ({
   setAnchorElNav,
   anchorElUser,
-  setAnchorElUser
+  setAnchorElUser,
+  logout
 }) => {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -49,11 +51,12 @@ export const AppNavBar: React.FC<IAppNavBarProps> = ({
       open={Boolean(anchorElUser)}
       onClose={handleCloseUserMenu}
     >
-      {['Meu Perfil', 'Sair'].map(page => (
-        <MenuItem key={page} onClick={handleCloseUserMenu}>
-          <Typography textAlign="center">{page}</Typography>
-        </MenuItem>
-      ))}
+      <MenuItem onClick={handleCloseUserMenu}>
+        <Typography textAlign="center">Meu Perfil</Typography>
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <Typography textAlign="center">Sair</Typography>
+      </MenuItem>
     </Menu>
   )
 

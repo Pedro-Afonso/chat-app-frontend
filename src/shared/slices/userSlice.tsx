@@ -50,7 +50,14 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    reset: () => initialState
+    reset: () => initialState,
+    logout: state => {
+      state.auth = null
+      state.user = null
+      state.error = null
+      state.loading = false
+      state.success = false
+    }
   },
   extraReducers: builder => {
     builder
@@ -89,5 +96,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const { reset } = userSlice.actions
+export const { reset, logout } = userSlice.actions
 export const { reducer: userReducer } = userSlice
