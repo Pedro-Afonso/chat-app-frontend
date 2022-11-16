@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 import { useAppDispatch } from '../../shared/hooks'
-import { logout as logoutAction } from '../../shared/slices/userSlice'
+import {
+  getCurrentUser,
+  logout as logoutAction
+} from '../../shared/slices/userSlice'
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
@@ -11,6 +14,10 @@ export const Chat = () => {
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+
+  useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [dispatch])
 
   const userList = [
     { name: 'José', email: 'jose@email.com' },
