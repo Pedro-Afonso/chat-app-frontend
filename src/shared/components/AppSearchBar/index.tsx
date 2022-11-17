@@ -33,13 +33,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-export const AppSearchBar = () => {
+interface IAppSearchBarProps {
+  query: string
+  setQuery: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const AppSearchBar: React.FC<IAppSearchBarProps> = ({
+  query,
+  setQuery
+}) => {
   return (
     <SearchField>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        value={query}
+        onChange={e => setQuery(e.target.value)}
         placeholder="Digite o nome ou email..."
         inputProps={{ 'aria-label': 'search' }}
       />
