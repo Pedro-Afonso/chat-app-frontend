@@ -10,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector, useDebounce } from '../../shared/hooks'
 import { getAllChatsByUser } from '../../shared/slices/chatSlice'
 import {
+  AppModal,
   AppSearchBar,
   ChatList,
   ChatListHeader,
@@ -19,17 +20,17 @@ import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 
 export const Chat = () => {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const [query, setQuery] = useState('')
+  type TModal = 'ADD_GROUP' | null
+  const [modal, setModal] = useState<TModal>(null)
+
   const dispatch = useAppDispatch()
-  const { debounce } = useDebounce()
   const users = useAppSelector(state => state.user.users)
   const chats = useAppSelector(state => state.chat.chats)
 
-  const logout = () => dispatch(logoutAction())
-
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-
-  const [query, setQuery] = useState('')
+  const { debounce } = useDebounce()
 
   useEffect(() => {
     dispatch(getCurrentUser())
@@ -41,6 +42,14 @@ export const Chat = () => {
       dispatch(searchUsers(query))
     })
   }, [query, debounce, dispatch])
+
+  const logout = () => dispatch(logoutAction())
+  const handleCloseModal = () => {
+    setModal(null)
+  }
+  const handleOpenAddGroupModal = () => {
+    setModal('ADD_GROUP')
+  }
 
   return (
     <Box height="100vh">
@@ -59,10 +68,13 @@ export const Chat = () => {
       </AppDrawer>
       <Box display={{ xs: 'block', md: 'flex' }} justifyContent="space-evenly">
         <ChatList chatList={chats}>
-          <ChatListHeader />
+          <ChatListHeader handleOpenAddGroupModal={handleOpenAddGroupModal} />
         </ChatList>
         <ChatRoom chat={'Clique em um usuário e inicie uma conversa'} />
       </Box>
+      <AppModal isModalOpen={!!modal} handleCloseModal={handleCloseModal}>
+        teste
+      </AppModal>
     </Box>
   )
 }

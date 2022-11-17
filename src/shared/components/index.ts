@@ -1,4 +1,5 @@
 export * from './AppDrawer'
+export * from './AppModal'
 export * from './AppNavBar'
 export * from './AppSearchBar'
 export * from './ChatList'
