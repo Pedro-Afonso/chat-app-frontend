@@ -10,9 +10,10 @@ import { TChat } from '../../interface'
 
 interface IChatListProps {
   chatList: TChat[]
+  children?: React.ReactNode
 }
 
-export const ChatList: React.FC<IChatListProps> = ({ chatList }) => {
+export const ChatList: React.FC<IChatListProps> = ({ chatList, children }) => {
   const typographyStyle: React.CSSProperties = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -30,10 +31,32 @@ export const ChatList: React.FC<IChatListProps> = ({ chatList }) => {
         component={Paper}
         width="100%"
         flexGrow={1}
-        minHeight="50vh"
-        maxHeight="90vh"
+        height="calc(100vh - 100px)"
       >
-        <List>
+        <List
+          subheader={children}
+          sx={{
+            overflow: 'auto',
+            maxHeight: '100%',
+            '&::-webkit-scrollbar': {
+              width: '3px'
+            },
+
+            '&::-webkit-scrollbar-track': {
+              boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
+              borderRadius: '10px'
+            },
+
+            '&::-webkit-scrollbar-thumb': {
+              background: '#fbc02d',
+              borderRadius: '10px'
+            },
+
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: 'rgb(255, 251, 251)'
+            }
+          }}
+        >
           {chatList.map(({ _id, name, isGroupChat, latestMessage, users }) => (
             <ListItem key={_id} disablePadding>
               {isGroupChat ? (
