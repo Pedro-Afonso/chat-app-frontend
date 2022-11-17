@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
 
+import Box from '@mui/material/Box'
+
 import {
   getCurrentUser,
   logout as logoutAction,
   searchUsers
 } from '../../shared/slices/userSlice'
 import { useAppDispatch, useAppSelector, useDebounce } from '../../shared/hooks'
+import { getAllChatsByUser } from '../../shared/slices/chatSlice'
+import { AppSearchBar, ChatList } from '../../shared/components'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
-import { AppSearchBar } from '../../shared/components'
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
   const { debounce } = useDebounce()
   const users = useAppSelector(state => state.user.users)
+  const chats = useAppSelector(state => state.chat.chats)
 
   const logout = () => dispatch(logoutAction())
 
@@ -24,6 +28,7 @@ export const Chat = () => {
 
   useEffect(() => {
     dispatch(getCurrentUser())
+    dispatch(getAllChatsByUser())
   }, [dispatch])
 
   useEffect(() => {
@@ -33,7 +38,7 @@ export const Chat = () => {
   }, [query, debounce, dispatch])
 
   return (
-    <>
+    <Box height="100vh">
       <AppNavBar
         setAnchorElNav={setAnchorElNav}
         anchorElUser={anchorElUser}
@@ -47,6 +52,7 @@ export const Chat = () => {
       >
         <AppSearchBar query={query} setQuery={setQuery} />
       </AppDrawer>
-    </>
+      <ChatList chatList={chats} />
+    </Box>
   )
 }
