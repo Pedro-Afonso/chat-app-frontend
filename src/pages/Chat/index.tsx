@@ -9,7 +9,12 @@ import {
 } from '../../shared/slices/userSlice'
 import { useAppDispatch, useAppSelector, useDebounce } from '../../shared/hooks'
 import { getAllChatsByUser } from '../../shared/slices/chatSlice'
-import { AppSearchBar, ChatList, ChatListHeader } from '../../shared/components'
+import {
+  AppSearchBar,
+  ChatList,
+  ChatListHeader,
+  ChatRoom
+} from '../../shared/components'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 
@@ -52,10 +57,12 @@ export const Chat = () => {
       >
         <AppSearchBar query={query} setQuery={setQuery} />
       </AppDrawer>
-
-      <ChatList chatList={chats}>
-        <ChatListHeader />
-      </ChatList>
+      <Box display={{ xs: 'block', md: 'flex' }} justifyContent="space-evenly">
+        <ChatList chatList={chats}>
+          <ChatListHeader />
+        </ChatList>
+        <ChatRoom chat={'Clique em um usuário e inicie uma conversa'} />
+      </Box>
     </Box>
   )
 }
