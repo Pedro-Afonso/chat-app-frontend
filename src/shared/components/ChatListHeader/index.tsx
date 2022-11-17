@@ -4,7 +4,13 @@ import Button from '@mui/material/Button'
 import Add from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 
-export const ChatListHeader = () => {
+interface IChatListHeaderProps {
+  handleOpenAddGroupModal?: () => void
+}
+
+export const ChatListHeader: React.FC<IChatListHeaderProps> = ({
+  handleOpenAddGroupModal
+}) => {
   return (
     <>
       <Box
@@ -26,6 +32,7 @@ export const ChatListHeader = () => {
           Meus chats
         </Typography>
         <Button
+          onClick={handleOpenAddGroupModal}
           variant="outlined"
           endIcon={<Add />}
           sx={{
