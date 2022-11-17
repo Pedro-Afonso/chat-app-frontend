@@ -16,7 +16,7 @@ export type TChat = {
   name: string
   isGroupChat: boolean
   groupAdmin?: TUser
-  users: TUser[] | string[]
+  users: TUser[]
   latestMessage?: TMessage
   createdAt: Date
   updatedAt: Date
