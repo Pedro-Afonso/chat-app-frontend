@@ -36,7 +36,7 @@ const SearchListMemo = memo(({ chatId }: { chatId: string }) => {
     <List>
       {searchList.map(({ _id, name, email, profileImage }) => (
         <ListItem key={_id} disablePadding>
-          <ListItemButton onClick={() => handleAddToGroup(_id, name)}>
+          <ListItemButton onClick={() => handleAddToGroup(_id)}>
             <ListItemIcon>
               <Avatar src={profileImage} alt={name} />
             </ListItemIcon>
