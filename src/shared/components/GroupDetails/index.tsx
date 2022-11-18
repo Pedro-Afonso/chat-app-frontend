@@ -16,24 +16,27 @@ import Stack from '@mui/material/Stack'
 import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { addToGroup } from '../../slices/chatSlice'
 import { AppSearchBar } from '../AppSearchBar'
-import { useAppSelector } from '../../hooks'
 
 interface IAddGroupFormProps {
   closeModal: () => void
 }
 
-const SearchListMemo = memo(() => {
+const SearchListMemo = memo(({ chatId }: { chatId: string }) => {
   const searchList = useAppSelector(state => state.user.users)
+  const dispatch = useAppDispatch()
 
-  const handleAddToGroup = (_id: string) => {
-    alert(_id + 'Foi adicionado')
+  const handleAddToGroup = (userId: string) => {
+    if (!chatId || !userId) return
+    dispatch(addToGroup({ chatId, userId }))
   }
   return (
     <List>
       {searchList.map(({ _id, name, email, profileImage }) => (
         <ListItem key={_id} disablePadding>
-          <ListItemButton onClick={() => handleAddToGroup(_id)}>
+          <ListItemButton onClick={() => handleAddToGroup(_id, name)}>
             <ListItemIcon>
               <Avatar src={profileImage} alt={name} />
             </ListItemIcon>
@@ -51,6 +54,7 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
   const chat = useAppSelector(state => state.chat.chat)
 
   const memberList = chat ? chat.users : []
+  const chatId = chat ? chat._id : ''
 
   useEffect(() => {
     if (!chat) return
@@ -121,7 +125,7 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
       <Divider />
 
       <DialogContent sx={styledScroll}>
-        <SearchListMemo />
+        <SearchListMemo chatId={chatId} />
       </DialogContent>
       <DialogActions>
         <Button onClick={closeModal}>Cancelar</Button>
