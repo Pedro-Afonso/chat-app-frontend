@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import ListItemButton from '@mui/material/ListItemButton'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
@@ -14,43 +16,36 @@ import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
 import { AppSearchBar } from '../AppSearchBar'
-
-interface userProps {
-  _id: string
-  name: string
-  email: string
-  profileImage?: string
-}
+import { useAppSelector, useAppDispatch } from '../../hooks'
+import { createGroupChat } from '../../slices/chatSlice'
 
 interface IAddGroupFormProps {
-  userList: userProps[]
-  groupName: string
-  query: string
-  addData: { id: string; name: string }[]
-
-  setGroupName: (v: string) => void
-  setQuery: React.Dispatch<React.SetStateAction<string>>
-  setAddData: React.Dispatch<
-    React.SetStateAction<{ id: string; name: string }[]>
-  >
-
   closeModal: () => void
-  handleCreateGroup: () => void
 }
 
-export const AddGroupForm: React.FC<IAddGroupFormProps> = ({
-  userList,
-  groupName,
-  query,
-  addData,
+export const AddGroupForm: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
+  const dispatch = useAppDispatch()
 
-  setGroupName,
-  setAddData,
-  setQuery,
+  const [groupName, setGroupName] = useState('')
+  const [addData, setAddData] = useState<{ id: string; name: string }[]>([])
 
-  closeModal,
-  handleCreateGroup
-}) => {
+  const userList = useAppSelector(state => state.user.users)
+
+  const handleCreateGroup = () => {
+    if (!groupName || addData.length < 2) return
+
+    dispatch(
+      createGroupChat({
+        name: groupName,
+        users: addData.map(data => data.id)
+      })
+    )
+
+    setGroupName('')
+    closeModal()
+    setAddData([])
+  }
+
   return (
     <>
       <DialogTitle>Criar um novo grupo</DialogTitle>
@@ -84,7 +79,7 @@ export const AddGroupForm: React.FC<IAddGroupFormProps> = ({
           size="small"
           sx={{ mb: 2 }}
         />
-        <AppSearchBar query={query} setQuery={setQuery} />
+        <AppSearchBar />
         <Divider />
         <Stack direction="row" flexWrap={'wrap'} gap={1}>
           {addData.map(({ id, name }) => (

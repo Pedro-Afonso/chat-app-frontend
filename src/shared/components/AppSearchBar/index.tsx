@@ -2,6 +2,11 @@ import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 
+import { useState, useEffect } from 'react'
+
+import { useAppDispatch, useDebounce } from '../../hooks'
+import { searchUsers } from '../../slices/userSlice'
+
 const SearchField = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -33,15 +38,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-interface IAppSearchBarProps {
-  query: string
-  setQuery: React.Dispatch<React.SetStateAction<string>>
-}
+export const AppSearchBar = () => {
+  const dispatch = useAppDispatch()
 
-export const AppSearchBar: React.FC<IAppSearchBarProps> = ({
-  query,
-  setQuery
-}) => {
+  const [query, setQuery] = useState('')
+
+  const { debounce } = useDebounce()
+
+  useEffect(() => {
+    debounce(() => {
+      dispatch(searchUsers(query))
+    })
+  }, [query, debounce, dispatch])
+
   return (
     <SearchField>
       <SearchIconWrapper>

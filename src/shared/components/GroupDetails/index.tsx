@@ -1,3 +1,5 @@
+import { useState, useEffect, memo } from 'react'
+
 import ListItemButton from '@mui/material/ListItemButton'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
@@ -15,44 +17,46 @@ import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
 import { AppSearchBar } from '../AppSearchBar'
-
-interface userProps {
-  _id: string
-  name: string
-  email: string
-  profileImage?: string
-}
+import { useAppSelector } from '../../hooks'
 
 interface IAddGroupFormProps {
-  memberList: userProps[]
-  searchList: userProps[]
-
-  groupName: string
-  query: string
-
-  setGroupName: (v: string) => void
-  setQuery: React.Dispatch<React.SetStateAction<string>>
-
   closeModal: () => void
-  handleRemoveUser: (_id: string) => void
-  handleAddToGroup: (_id: string) => void
-  handleLeaveGroup: () => void
 }
 
-export const GroupDetails: React.FC<IAddGroupFormProps> = ({
-  memberList,
-  searchList,
-  groupName,
-  query,
+const SearchListMemo = memo(() => {
+  const searchList = useAppSelector(state => state.user.users)
 
-  setGroupName,
-  setQuery,
+  const handleAddToGroup = (_id: string) => {
+    alert(_id + 'Foi adicionado')
+  }
+  return (
+    <List>
+      {searchList.map(({ _id, name, email, profileImage }) => (
+        <ListItem key={_id} disablePadding>
+          <ListItemButton onClick={() => handleAddToGroup(_id)}>
+            <ListItemIcon>
+              <Avatar src={profileImage} alt={name} />
+            </ListItemIcon>
+            <ListItemText primary={name} secondary={email} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
+  )
+})
 
-  closeModal,
-  handleRemoveUser,
-  handleAddToGroup,
-  handleLeaveGroup
-}) => {
+export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
+  const [groupName, setGroupName] = useState('')
+
+  const chat = useAppSelector(state => state.chat.chat)
+
+  const memberList = chat ? chat.users : []
+
+  useEffect(() => {
+    if (!chat) return
+    setGroupName(chat.name)
+  }, [chat])
+
   const styledScroll = {
     overflow: 'auto',
     maxHeight: '100%',
@@ -74,6 +78,15 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({
       background: 'rgb(255, 251, 251)'
     }
   }
+
+  const handleLeaveGroup = () => {
+    alert('Você saiu do grupo')
+  }
+
+  const handleRemoveUser = (_id: string) => {
+    alert(_id + 'Foi removido')
+  }
+
   return (
     <>
       <DialogTitle>
@@ -87,17 +100,18 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({
           size="small"
           sx={{ mb: 2 }}
         />
-        <AppSearchBar query={query} setQuery={setQuery} />
+        <AppSearchBar />
       </DialogTitle>
 
       <Divider />
 
       <DialogContent sx={styledScroll}>
         <Stack direction="row" flexWrap={'wrap'} gap={1}>
-          {memberList.map(({ _id, name }) => (
+          {memberList.map(({ _id, name, profileImage }) => (
             <Chip
               key={_id}
               label={name}
+              avatar={<Avatar src={profileImage} alt={name} />}
               onDelete={() => handleRemoveUser(_id)}
             />
           ))}
@@ -107,18 +121,7 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({
       <Divider />
 
       <DialogContent sx={styledScroll}>
-        <List>
-          {searchList.map(({ _id, name, email, profileImage }) => (
-            <ListItem key={_id} disablePadding>
-              <ListItemButton onClick={() => handleAddToGroup(_id)}>
-                <ListItemIcon>
-                  <Avatar src={profileImage} alt={name} />
-                </ListItemIcon>
-                <ListItemText primary={name} secondary={email} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <SearchListMemo />
       </DialogContent>
       <DialogActions>
         <Button onClick={closeModal}>Cancelar</Button>

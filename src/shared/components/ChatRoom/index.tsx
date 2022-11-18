@@ -6,15 +6,15 @@ import Send from '@mui/icons-material/Send'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
+import { useAppSelector } from '../../hooks'
+
 interface IChatRoomProps {
-  chat?: any
   openGroupDetails: () => void
 }
 
-export const ChatRoom: React.FC<IChatRoomProps> = ({
-  chat,
-  openGroupDetails
-}) => {
+export const ChatRoom: React.FC<IChatRoomProps> = ({ openGroupDetails }) => {
+  const chat = useAppSelector(state => state.chat.chat)
+
   return (
     <Box
       display="flex"
@@ -41,7 +41,7 @@ export const ChatRoom: React.FC<IChatRoomProps> = ({
               paddingY={1}
               paddingX={3}
             >
-              <Typography fontSize="2rem">{chat}</Typography>
+              <Typography fontSize="2rem">{chat.name}</Typography>
               <IconButton onClick={openGroupDetails}>
                 <Details />
               </IconButton>

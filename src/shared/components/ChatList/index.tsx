@@ -6,14 +6,19 @@ import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
-import { TChat } from '../../interface'
+
+import { useAppSelector } from '../../hooks'
+import { ChatListHeader } from '../ChatListHeader'
 
 interface IChatListProps {
-  chatList: TChat[]
-  children?: React.ReactNode
+  handleOpenAddGroupModal?: () => void
 }
 
-export const ChatList: React.FC<IChatListProps> = ({ chatList, children }) => {
+export const ChatList: React.FC<IChatListProps> = ({
+  handleOpenAddGroupModal
+}) => {
+  const chatList = useAppSelector(state => state.chat.chats)
+
   const typographyStyle: React.CSSProperties = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -34,7 +39,9 @@ export const ChatList: React.FC<IChatListProps> = ({ chatList, children }) => {
         height="calc(100vh - 100px)"
       >
         <List
-          subheader={children}
+          subheader={
+            <ChatListHeader handleOpenAddGroupModal={handleOpenAddGroupModal} />
+          }
           sx={{
             overflow: 'auto',
             maxHeight: '100%',

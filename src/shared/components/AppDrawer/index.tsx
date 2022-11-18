@@ -8,33 +8,29 @@ import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-interface userProps {
-  _id: string
-  name: string
-  email: string
-  profileImage?: string
-}
+import { useAppSelector } from '../../hooks'
+import { AppSearchBar } from '../AppSearchBar'
 
 interface IAppDrawerProps {
   anchorElNav: null | HTMLElement
   setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-  userList: userProps[]
-  children: React.ReactNode
 }
 
 export const AppDrawer: React.FC<IAppDrawerProps> = ({
   anchorElNav,
-  setAnchorElNav,
-  userList,
-  children
+  setAnchorElNav
 }) => {
+  const userList = useAppSelector(state => state.user.users)
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
 
   return (
     <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
-      <ListItem>{children}</ListItem>
+      <ListItem>
+        <AppSearchBar />
+      </ListItem>
       <Divider />
       <Box
         sx={{ width: 300 }}
