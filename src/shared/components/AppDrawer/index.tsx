@@ -9,6 +9,7 @@ import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
 interface userProps {
+  _id: string
   name: string
   email: string
   profileImage?: string
@@ -42,8 +43,8 @@ export const AppDrawer: React.FC<IAppDrawerProps> = ({
         onKeyDown={handleCloseNavMenu}
       >
         <List>
-          {userList.map(({ name, email, profileImage }) => (
-            <ListItem key={name + email} disablePadding>
+          {userList.map(({ _id, name, email, profileImage }) => (
+            <ListItem key={_id} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <Avatar src={profileImage} alt={name} />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box'
 
 import {
@@ -8,9 +9,12 @@ import {
   searchUsers
 } from '../../shared/slices/userSlice'
 import { useAppDispatch, useAppSelector, useDebounce } from '../../shared/hooks'
-import { getAllChatsByUser } from '../../shared/slices/chatSlice'
 import {
-  AppModal,
+  createGroupChat,
+  getAllChatsByUser
+} from '../../shared/slices/chatSlice'
+import {
+  AddGroupForm,
   AppSearchBar,
   ChatList,
   ChatListHeader,
@@ -19,12 +23,16 @@ import {
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 
+type TModal = 'ADD_GROUP' | null
+
 export const Chat = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
   const [query, setQuery] = useState('')
-  type TModal = 'ADD_GROUP' | null
+
   const [modal, setModal] = useState<TModal>(null)
+  const [groupName, setGroupName] = useState('')
+  const [addData, setAddData] = useState<{ id: string; name: string }[]>([])
 
   const dispatch = useAppDispatch()
   const users = useAppSelector(state => state.user.users)
@@ -44,11 +52,28 @@ export const Chat = () => {
   }, [query, debounce, dispatch])
 
   const logout = () => dispatch(logoutAction())
+
   const handleCloseModal = () => {
     setModal(null)
   }
+
   const handleOpenAddGroupModal = () => {
     setModal('ADD_GROUP')
+  }
+
+  const handleCreateGroup = () => {
+    if (!groupName || addData.length < 2) return
+
+    dispatch(
+      createGroupChat({
+        name: groupName,
+        users: addData.map(data => data.id)
+      })
+    )
+    setQuery('')
+    setGroupName('')
+    setModal(null)
+    setAddData([])
   }
 
   return (
@@ -72,9 +97,21 @@ export const Chat = () => {
         </ChatList>
         <ChatRoom chat={'Clique em um usuário e inicie uma conversa'} />
       </Box>
-      <AppModal isModalOpen={!!modal} handleCloseModal={handleCloseModal}>
-        teste
-      </AppModal>
+      <Dialog fullWidth onClose={handleCloseModal} open={!!modal}>
+        {modal === 'ADD_GROUP' && (
+          <AddGroupForm
+            userList={users}
+            groupName={groupName}
+            setGroupName={setGroupName}
+            addData={addData}
+            setAddData={setAddData}
+            query={query}
+            setQuery={setQuery}
+            closeModal={handleCloseModal}
+            handleCreateGroup={handleCreateGroup}
+          />
+        )}
+      </Dialog>
     </Box>
   )
 }
