@@ -8,9 +8,13 @@ import Box from '@mui/material/Box'
 
 interface IChatRoomProps {
   chat?: any
+  openGroupDetails: () => void
 }
 
-export const ChatRoom: React.FC<IChatRoomProps> = ({ chat }) => {
+export const ChatRoom: React.FC<IChatRoomProps> = ({
+  chat,
+  openGroupDetails
+}) => {
   return (
     <Box
       display="flex"
@@ -38,7 +42,7 @@ export const ChatRoom: React.FC<IChatRoomProps> = ({ chat }) => {
               paddingX={3}
             >
               <Typography fontSize="2rem">{chat}</Typography>
-              <IconButton>
+              <IconButton onClick={openGroupDetails}>
                 <Details />
               </IconButton>
             </Box>

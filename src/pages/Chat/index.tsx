@@ -18,12 +18,13 @@ import {
   AppSearchBar,
   ChatList,
   ChatListHeader,
-  ChatRoom
+  ChatRoom,
+  GroupDetails
 } from '../../shared/components'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 
-type TModal = 'ADD_GROUP' | null
+type TModal = 'ADD_GROUP' | 'GROUP_DETAILS' | null
 
 export const Chat = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
@@ -37,6 +38,7 @@ export const Chat = () => {
   const dispatch = useAppDispatch()
   const users = useAppSelector(state => state.user.users)
   const chats = useAppSelector(state => state.chat.chats)
+  const chat = useAppSelector(state => state.chat.chat)
 
   const { debounce } = useDebounce()
 
@@ -61,6 +63,10 @@ export const Chat = () => {
     setModal('ADD_GROUP')
   }
 
+  const handleOpenGroupDetailsModal = () => {
+    setModal('GROUP_DETAILS')
+  }
+
   const handleCreateGroup = () => {
     if (!groupName || addData.length < 2) return
 
@@ -74,6 +80,18 @@ export const Chat = () => {
     setGroupName('')
     setModal(null)
     setAddData([])
+  }
+
+  const handleLeaveGroup = () => {
+    alert('Você saiu do grupo')
+  }
+
+  const handleAddToGroup = (_id: string) => {
+    alert(_id + 'Foi adicionado')
+  }
+
+  const handleRemoveUser = (_id: string) => {
+    alert(_id + 'Foi removido')
   }
 
   return (
@@ -95,8 +113,12 @@ export const Chat = () => {
         <ChatList chatList={chats}>
           <ChatListHeader handleOpenAddGroupModal={handleOpenAddGroupModal} />
         </ChatList>
-        <ChatRoom chat={'Clique em um usuário e inicie uma conversa'} />
+        <ChatRoom
+          chat={'Clique'}
+          openGroupDetails={handleOpenGroupDetailsModal}
+        />
       </Box>
+
       <Dialog fullWidth onClose={handleCloseModal} open={!!modal}>
         {modal === 'ADD_GROUP' && (
           <AddGroupForm
@@ -109,6 +131,20 @@ export const Chat = () => {
             setQuery={setQuery}
             closeModal={handleCloseModal}
             handleCreateGroup={handleCreateGroup}
+          />
+        )}
+        {modal === 'GROUP_DETAILS' && chat && (
+          <GroupDetails
+            memberList={chat.users}
+            searchList={users}
+            groupName={groupName}
+            query={query}
+            setGroupName={setGroupName}
+            setQuery={setQuery}
+            closeModal={handleCloseModal}
+            handleRemoveUser={handleRemoveUser}
+            handleAddToGroup={handleAddToGroup}
+            handleLeaveGroup={handleLeaveGroup}
           />
         )}
       </Dialog>
