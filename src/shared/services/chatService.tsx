@@ -40,4 +40,22 @@ const createGroupChat = (token: string, name: string, users: string[]) => {
   })
 }
 
-export const chatService = { getAllChatsByUser, createGroupChat }
+// Add user to chat
+const addToGroup = (token: string, chatId: string, userId: string) => {
+  return tryCatchService(async () => {
+    const config = {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    }
+
+    const { data } = await Api.put<TCreateGroupChatRes>(
+      `/api/chats/group/${chatId}/${userId}`,
+      config
+    )
+
+    return data
+  })
+}
+
+export const chatService = { getAllChatsByUser, createGroupChat, addToGroup }
