@@ -79,6 +79,31 @@ export const addToGroup = createAsyncThunk<
   }
 )
 
+// Remove member from chat
+export const removeUser = createAsyncThunk<
+  { chat: TChat; message: string },
+  { chatId: string; userId: string },
+  { rejectValue: string }
+>(
+  'chat/removeuser',
+  async ({ chatId, userId }, { rejectWithValue, getState }) => {
+    const { user } = getState() as { user: IAuthState }
+
+    const res = await chatService.removeUser(
+      user.auth?.token || '',
+      chatId,
+      userId
+    )
+
+    // Check for errors
+    if ('errors' in res) {
+      return rejectWithValue(res.errors[0])
+    }
+
+    return res
+  }
+)
+
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
@@ -128,6 +153,20 @@ export const chatSlice = createSlice({
         state.success = true
       })
       .addCase(addToGroup.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
+      .addCase(removeUser.pending, state => {
+        state.error = null
+        state.success = false
+        state.loading = false
+      })
+      .addCase(removeUser.fulfilled, (state, action) => {
+        state.chat = action.payload.chat
+        state.loading = false
+        state.success = true
+      })
+      .addCase(removeUser.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
         state.loading = false
       })

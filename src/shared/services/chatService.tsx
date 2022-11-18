@@ -59,4 +59,27 @@ const addToGroup = (token: string, chatId: string, userId: string) => {
   })
 }
 
-export const chatService = { getAllChatsByUser, createGroupChat, addToGroup }
+// Remove member from chat
+const removeUser = (token: string, chatId: string, userId: string) => {
+  return tryCatchService(async () => {
+    const config = {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    }
+
+    const { data } = await Api.delete<TCreateGroupChatRes>(
+      `/api/chats/group/${chatId}/users/${userId}`,
+      config
+    )
+
+    return data
+  })
+}
+
+export const chatService = {
+  getAllChatsByUser,
+  createGroupChat,
+  addToGroup,
+  removeUser
+}

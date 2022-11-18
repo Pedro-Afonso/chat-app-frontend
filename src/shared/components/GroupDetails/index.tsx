@@ -17,7 +17,7 @@ import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { addToGroup } from '../../slices/chatSlice'
+import { addToGroup, removeUser } from '../../slices/chatSlice'
 import { AppSearchBar } from '../AppSearchBar'
 
 interface IAddGroupFormProps {
@@ -51,6 +51,7 @@ const SearchListMemo = memo(({ chatId }: { chatId: string }) => {
 export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
   const [groupName, setGroupName] = useState('')
 
+  const dispatch = useAppDispatch()
   const chat = useAppSelector(state => state.chat.chat)
 
   const memberList = chat ? chat.users : []
@@ -87,8 +88,8 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
     alert('Você saiu do grupo')
   }
 
-  const handleRemoveUser = (_id: string) => {
-    alert(_id + 'Foi removido')
+  const handleRemoveUser = (userId: string) => {
+    dispatch(removeUser({ userId, chatId }))
   }
 
   return (
