@@ -50,7 +50,8 @@ const addToGroup = (token: string, chatId: string, userId: string) => {
     }
 
     const { data } = await Api.put<TCreateGroupChatRes>(
-      `/api/chats/group/${chatId}/${userId}`,
+      `/api/chats/group/${chatId}/users/${userId}`,
+      null,
       config
     )
 
