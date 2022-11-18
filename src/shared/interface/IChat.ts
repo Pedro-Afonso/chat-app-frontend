@@ -25,7 +25,7 @@ export type TChat = {
 
 // Responses
 export type TGetAllChatsByUserRes = TChat[] | TErrors
-export type TCreateGroupChatRes = TChat | TErrors
+export type TCreateGroupChatRes = { chat: TChat; message: string } | TErrors
 
 // Redux State
 export interface IChatState {
