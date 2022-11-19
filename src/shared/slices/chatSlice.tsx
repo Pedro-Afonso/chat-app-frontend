@@ -194,6 +194,10 @@ export const chatSlice = createSlice({
         state.loading = false
       })
       .addCase(addToGroup.fulfilled, (state, action) => {
+        const newChatList = state.chats.map(chat =>
+          chat._id !== action.payload.chat._id ? chat : action.payload.chat
+        )
+        state.chats = newChatList
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
@@ -208,6 +212,10 @@ export const chatSlice = createSlice({
         state.loading = false
       })
       .addCase(removeUser.fulfilled, (state, action) => {
+        const newChatList = state.chats.map(chat =>
+          chat._id !== action.payload.chat._id ? chat : action.payload.chat
+        )
+        state.chats = newChatList
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
@@ -222,6 +230,10 @@ export const chatSlice = createSlice({
         state.loading = false
       })
       .addCase(renameGroup.fulfilled, (state, action) => {
+        const newChatList = state.chats.map(chat =>
+          chat._id !== action.payload.chat._id ? chat : action.payload.chat
+        )
+        state.chats = newChatList
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
