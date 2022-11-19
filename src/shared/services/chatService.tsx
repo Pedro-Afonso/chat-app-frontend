@@ -77,9 +77,33 @@ const removeUser = (token: string, chatId: string, userId: string) => {
   })
 }
 
+// Rename group chat
+const renameGroup = (token: string, chatId: string, newChatName: string) => {
+  return tryCatchService(async () => {
+    const putData = {
+      newChatName
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    }
+
+    const { data } = await Api.put<TCreateGroupChatRes>(
+      `/api/chats/group/${chatId}`,
+      putData,
+      config
+    )
+
+    return data
+  })
+}
+
 export const chatService = {
   getAllChatsByUser,
   createGroupChat,
   addToGroup,
-  removeUser
+  removeUser,
+  renameGroup
 }

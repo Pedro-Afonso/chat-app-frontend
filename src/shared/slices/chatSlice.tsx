@@ -104,6 +104,31 @@ export const removeUser = createAsyncThunk<
   }
 )
 
+// Rename group chat
+export const renameGroup = createAsyncThunk<
+  { chat: TChat; message: string },
+  { chatId: string; newChatName: string },
+  { rejectValue: string }
+>(
+  'chat/renameGroup',
+  async ({ chatId, newChatName }, { rejectWithValue, getState }) => {
+    const { user } = getState() as { user: IAuthState }
+
+    const res = await chatService.renameGroup(
+      user.auth?.token || '',
+      chatId,
+      newChatName
+    )
+
+    // Check for errors
+    if ('errors' in res) {
+      return rejectWithValue(res.errors[0])
+    }
+
+    return res
+  }
+)
+
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
@@ -167,6 +192,20 @@ export const chatSlice = createSlice({
         state.success = true
       })
       .addCase(removeUser.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
+      .addCase(renameGroup.pending, state => {
+        state.error = null
+        state.success = false
+        state.loading = false
+      })
+      .addCase(renameGroup.fulfilled, (state, action) => {
+        state.chat = action.payload.chat
+        state.loading = false
+        state.success = true
+      })
+      .addCase(renameGroup.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
         state.loading = false
       })

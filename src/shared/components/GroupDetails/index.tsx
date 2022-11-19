@@ -15,9 +15,10 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
+import Box from '@mui/material/Box'
 
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { addToGroup, removeUser } from '../../slices/chatSlice'
+import { addToGroup, removeUser, renameGroup } from '../../slices/chatSlice'
 import { AppSearchBar } from '../AppSearchBar'
 
 interface IAddGroupFormProps {
@@ -53,8 +54,11 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
 
   const dispatch = useAppDispatch()
   const chat = useAppSelector(state => state.chat.chat)
+  const memberList = useAppSelector(state =>
+    state.chat.chat ? state.chat.chat.users : []
+  )
 
-  const memberList = chat ? chat.users : []
+  const adminId = chat && chat.groupAdmin ? chat.groupAdmin._id : ''
   const chatId = chat ? chat._id : ''
 
   useEffect(() => {
@@ -84,11 +88,17 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
     }
   }
 
+  const handleRenameGroup = () => {
+    if (!chatId || !groupName) return
+    dispatch(renameGroup({ chatId, newChatName: groupName }))
+  }
+
   const handleLeaveGroup = () => {
     alert('Você saiu do grupo')
   }
 
   const handleRemoveUser = (userId: string) => {
+    if (adminId === userId) return
     dispatch(removeUser({ userId, chatId }))
   }
 
@@ -98,13 +108,28 @@ export const GroupDetails: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
         <Typography textAlign="center" fontSize="2rem">
           Detalhes do Chat
         </Typography>
-        <TextField
-          value={groupName}
-          onChange={e => setGroupName(e.target.value)}
-          fullWidth
-          size="small"
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
           sx={{ mb: 2 }}
-        />
+        >
+          <TextField
+            autoComplete="off"
+            value={groupName}
+            onChange={e => setGroupName(e.target.value)}
+            fullWidth
+            size="small"
+          />
+          <Button
+            onClick={handleRenameGroup}
+            color="info"
+            variant="contained"
+            sx={{ ml: 2 }}
+          >
+            Renomear
+          </Button>
+        </Box>
         <AppSearchBar />
       </DialogTitle>
 
