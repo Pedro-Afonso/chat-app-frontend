@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks'
 import { DialogUserDetails } from '../DialogUserDetails'
 import { DialogGroupDetails } from '../DialogGroupDetails'
 import { SendMessageForm } from '../SendMessageForm'
+import { ChatMessages } from '../ChatMessages'
 
 export const ChatRoom = () => {
   const chat = useAppSelector(state => state.chat.chat)
@@ -54,9 +55,10 @@ export const ChatRoom = () => {
               gap={1}
               flexDirection="column"
               justifyContent="space-between"
+              overflow="auto"
             >
               {/* Chat messages */}
-              <Box component={Paper} elevation={24} flexGrow={1}></Box>
+              <ChatMessages />
               {/* /Chat messages */}
 
               {/* Send messages */}
