@@ -7,8 +7,9 @@ import List from '@mui/material/List'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
-import { useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import { ChatListHeader } from '../ChatListHeader'
+import { accessChat, selectChat } from '../../slices/chatSlice'
 
 interface IChatListProps {
   handleOpenAddGroupModal?: () => void
@@ -17,12 +18,43 @@ interface IChatListProps {
 export const ChatList: React.FC<IChatListProps> = ({
   handleOpenAddGroupModal
 }) => {
+  const dispatch = useAppDispatch()
   const chatList = useAppSelector(state => state.chat.chats)
 
   const typographyStyle: React.CSSProperties = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
+  }
+
+  const styledScroll = {
+    overflow: 'auto',
+    maxHeight: '100%',
+    '&::-webkit-scrollbar': {
+      width: '3px'
+    },
+
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
+      borderRadius: '10px'
+    },
+
+    '&::-webkit-scrollbar-thumb': {
+      background: '#fbc02d',
+      borderRadius: '10px'
+    },
+
+    '&::-webkit-scrollbar-thumb:hover': {
+      background: 'rgb(255, 251, 251)'
+    }
+  }
+
+  const handleAccessChat = (userId: string) => {
+    dispatch(accessChat({ userId }))
+  }
+
+  const handleAccessGroupChat = (chatId: string) => {
+    dispatch(selectChat(chatId))
   }
 
   return (
@@ -42,32 +74,12 @@ export const ChatList: React.FC<IChatListProps> = ({
           subheader={
             <ChatListHeader handleOpenAddGroupModal={handleOpenAddGroupModal} />
           }
-          sx={{
-            overflow: 'auto',
-            maxHeight: '100%',
-            '&::-webkit-scrollbar': {
-              width: '3px'
-            },
-
-            '&::-webkit-scrollbar-track': {
-              boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
-              borderRadius: '10px'
-            },
-
-            '&::-webkit-scrollbar-thumb': {
-              background: '#fbc02d',
-              borderRadius: '10px'
-            },
-
-            '&::-webkit-scrollbar-thumb:hover': {
-              background: 'rgb(255, 251, 251)'
-            }
-          }}
+          sx={styledScroll}
         >
           {chatList.map(({ _id, name, isGroupChat, latestMessage, users }) => (
             <ListItem key={_id} disablePadding>
               {isGroupChat ? (
-                <ListItemButton>
+                <ListItemButton onClick={() => handleAccessGroupChat(_id)}>
                   <ListItemText
                     primary={name}
                     secondary={
@@ -82,7 +94,7 @@ export const ChatList: React.FC<IChatListProps> = ({
                   />
                 </ListItemButton>
               ) : (
-                <ListItemButton>
+                <ListItemButton onClick={() => handleAccessChat(users[0]._id)}>
                   <ListItemIcon>
                     <Avatar src={users[0].profileImage} alt={users[0].name} />
                   </ListItemIcon>

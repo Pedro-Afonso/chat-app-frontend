@@ -8,7 +8,8 @@ import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-import { useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { accessChat } from '../../slices/chatSlice'
 import { AppSearchBar } from '../AppSearchBar'
 
 interface IAppDrawerProps {
@@ -20,12 +21,16 @@ export const AppDrawer: React.FC<IAppDrawerProps> = ({
   anchorElNav,
   setAnchorElNav
 }) => {
+  const dispatch = useAppDispatch()
   const userList = useAppSelector(state => state.user.users)
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
 
+  const handleAccessChat = (userId: string) => {
+    dispatch(accessChat({ userId }))
+  }
   return (
     <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
       <ListItem>
@@ -41,7 +46,7 @@ export const AppDrawer: React.FC<IAppDrawerProps> = ({
         <List>
           {userList.map(({ _id, name, email, profileImage }) => (
             <ListItem key={_id} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => handleAccessChat(_id)}>
                 <ListItemIcon>
                   <Avatar src={profileImage} alt={name} />
                 </ListItemIcon>

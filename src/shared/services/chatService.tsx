@@ -100,10 +100,34 @@ const renameGroup = (token: string, chatId: string, newChatName: string) => {
   })
 }
 
+// Create or fetch one to one chat
+const accessChat = (token: string, userId: string) => {
+  return tryCatchService(async () => {
+    const postData = {
+      userId
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    }
+
+    const { data } = await Api.post<TCreateGroupChatRes>(
+      '/api/chats/',
+      postData,
+      config
+    )
+
+    return data
+  })
+}
+
 export const chatService = {
   getAllChatsByUser,
   createGroupChat,
   addToGroup,
   removeUser,
-  renameGroup
+  renameGroup,
+  accessChat
 }

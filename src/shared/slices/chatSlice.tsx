@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 
 import { IChatState, IAuthState, TChat } from '../interface'
 import { chatService } from '../services'
@@ -110,7 +110,7 @@ export const renameGroup = createAsyncThunk<
   { chatId: string; newChatName: string },
   { rejectValue: string }
 >(
-  'chat/renameGroup',
+  'chat/renamegroup',
   async ({ chatId, newChatName }, { rejectWithValue, getState }) => {
     const { user } = getState() as { user: IAuthState }
 
@@ -129,11 +129,32 @@ export const renameGroup = createAsyncThunk<
   }
 )
 
+// Create or fetch one to one chat
+export const accessChat = createAsyncThunk<
+  { chat: TChat; message: string },
+  { userId: string },
+  { rejectValue: string }
+>('chat/accesschat', async ({ userId }, { rejectWithValue, getState }) => {
+  const { user } = getState() as { user: IAuthState }
+
+  const res = await chatService.accessChat(user.auth?.token || '', userId)
+
+  // Check for errors
+  if ('errors' in res) {
+    return rejectWithValue(res.errors[0])
+  }
+
+  return res
+})
+
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    reset: () => initialState
+    reset: () => initialState,
+    selectChat: (state, action: PayloadAction<string>) => {
+      state.chat = state.chats.filter(chat => chat._id === action.payload)[0]
+    }
   },
   extraReducers: builder => {
     builder
@@ -209,8 +230,22 @@ export const chatSlice = createSlice({
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
+      .addCase(accessChat.pending, state => {
+        state.error = null
+        state.success = false
+        state.loading = false
+      })
+      .addCase(accessChat.fulfilled, (state, action) => {
+        state.chat = action.payload.chat
+        state.loading = false
+        state.success = true
+      })
+      .addCase(accessChat.rejected, (state, action) => {
+        state.error = action.payload ? action.payload : null
+        state.loading = false
+      })
   }
 })
 
-export const { reset } = chatSlice.actions
+export const { reset, selectChat } = chatSlice.actions
 export const { reducer: chatReducer } = chatSlice
