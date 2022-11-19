@@ -1,15 +1,5 @@
 import { TErrors, TUser } from './IAuth'
-
-type TMessage = {
-  _id: string
-  sender: TUser
-  content: string
-  chat: string
-  readBy: string[]
-  createdAt: Date
-  updatedAt: Date
-  __v: number
-}
+import { TMessage } from './IMessage'
 
 export type TChat = {
   _id: string
