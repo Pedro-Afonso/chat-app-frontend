@@ -9,12 +9,7 @@ import {
 } from '../../shared/slices/userSlice'
 import { useAppDispatch } from '../../shared/hooks'
 import { getAllChatsByUser } from '../../shared/slices/chatSlice'
-import {
-  AddGroupForm,
-  ChatList,
-  ChatRoom,
-  GroupDetails
-} from '../../shared/components'
+import { AddGroupForm, ChatList, ChatRoom } from '../../shared/components'
 import { AppDrawer } from '../../shared/components/AppDrawer'
 import { AppNavBar } from '../../shared/components/AppNavBar'
 
@@ -43,10 +38,6 @@ export const Chat = () => {
     setModal('ADD_GROUP')
   }
 
-  const handleOpenGroupDetailsModal = () => {
-    setModal('GROUP_DETAILS')
-  }
-
   return (
     <Box height="100vh">
       <AppNavBar
@@ -59,15 +50,12 @@ export const Chat = () => {
 
       <Box display={{ xs: 'block', md: 'flex' }} justifyContent="space-evenly">
         <ChatList handleOpenAddGroupModal={handleOpenAddGroupModal} />
-        <ChatRoom openGroupDetails={handleOpenGroupDetailsModal} />
+        <ChatRoom />
       </Box>
 
       <Dialog fullWidth onClose={handleCloseModal} open={!!modal}>
         {modal === 'ADD_GROUP' && (
           <AddGroupForm closeModal={handleCloseModal} />
-        )}
-        {modal === 'GROUP_DETAILS' && (
-          <GroupDetails closeModal={handleCloseModal} />
         )}
       </Dialog>
     </Box>
