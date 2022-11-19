@@ -1,16 +1,10 @@
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import Button from '@mui/material/Button'
-import Add from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 
-interface IChatListHeaderProps {
-  handleOpenAddGroupModal?: () => void
-}
+import { DialogAddGroup } from '../DialogAddGroup'
 
-export const ChatListHeader: React.FC<IChatListHeaderProps> = ({
-  handleOpenAddGroupModal
-}) => {
+export const ChatListHeader = () => {
   return (
     <>
       <Box
@@ -31,17 +25,7 @@ export const ChatListHeader: React.FC<IChatListHeaderProps> = ({
         >
           Meus chats
         </Typography>
-        <Button
-          onClick={handleOpenAddGroupModal}
-          variant="outlined"
-          endIcon={<Add />}
-          sx={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden'
-          }}
-        >
-          Criar um grupo
-        </Button>
+        <DialogAddGroup />
       </Box>
       <Divider />
     </>

@@ -3,21 +3,15 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListItem from '@mui/material/ListItem'
 import Avatar from '@mui/material/Avatar'
-import List from '@mui/material/List'
 import Paper from '@mui/material/Paper'
+import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { ChatListHeader } from '../ChatListHeader'
 import { accessChat, selectChat } from '../../slices/chatSlice'
 
-interface IChatListProps {
-  handleOpenAddGroupModal?: () => void
-}
-
-export const ChatList: React.FC<IChatListProps> = ({
-  handleOpenAddGroupModal
-}) => {
+export const ChatList = () => {
   const dispatch = useAppDispatch()
   const chatList = useAppSelector(state => state.chat.chats)
 
@@ -70,12 +64,7 @@ export const ChatList: React.FC<IChatListProps> = ({
         flexGrow={1}
         height="calc(100vh - 100px)"
       >
-        <List
-          subheader={
-            <ChatListHeader handleOpenAddGroupModal={handleOpenAddGroupModal} />
-          }
-          sx={styledScroll}
-        >
+        <List subheader={<ChatListHeader />} sx={styledScroll}>
           {chatList.map(({ _id, name, isGroupChat, latestMessage, users }) => (
             <ListItem key={_id} disablePadding>
               {isGroupChat ? (
