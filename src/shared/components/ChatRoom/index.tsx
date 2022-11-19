@@ -1,4 +1,4 @@
-import Details from '@mui/icons-material/RemoveRedEye'
+import RemoveRedEye from '@mui/icons-material/RemoveRedEye'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
 import { useAppSelector } from '../../hooks'
+import { DialogUserDetails } from '../DialogUserDetails'
 
 interface IChatRoomProps {
   openGroupDetails: () => void
@@ -42,9 +43,13 @@ export const ChatRoom: React.FC<IChatRoomProps> = ({ openGroupDetails }) => {
               paddingX={3}
             >
               <Typography fontSize="2rem">{chat.name}</Typography>
-              <IconButton onClick={openGroupDetails}>
-                <Details />
-              </IconButton>
+              {chat.isGroupChat ? (
+                <IconButton onClick={openGroupDetails}>
+                  <RemoveRedEye />
+                </IconButton>
+              ) : (
+                <DialogUserDetails />
+              )}
             </Box>
             {/* /Chat header */}
 
