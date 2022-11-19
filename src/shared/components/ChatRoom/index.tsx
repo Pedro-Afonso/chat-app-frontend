@@ -1,13 +1,11 @@
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import Send from '@mui/icons-material/Send'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
 import { useAppSelector } from '../../hooks'
 import { DialogUserDetails } from '../DialogUserDetails'
 import { DialogGroupDetails } from '../DialogGroupDetails'
+import { SendMessageForm } from '../SendMessageForm'
 
 export const ChatRoom = () => {
   const chat = useAppSelector(state => state.chat.chat)
@@ -62,27 +60,7 @@ export const ChatRoom = () => {
               {/* /Chat messages */}
 
               {/* Send messages */}
-              <Box component="form" display="flex" alignContent="center">
-                <Box
-                  component={Paper}
-                  flexGrow={1}
-                  variant="elevation"
-                  elevation={24}
-                >
-                  <TextField
-                    autoComplete="off"
-                    multiline={true}
-                    maxRows={4}
-                    fullWidth
-                    placeholder="Envie uma mensagem..."
-                  />
-                </Box>
-                <Box display="flex" alignItems="center">
-                  <IconButton size="large">
-                    <Send />
-                  </IconButton>
-                </Box>
-              </Box>
+              <SendMessageForm />
               {/* /Send messages */}
             </Box>
             {/* /Chat body */}
