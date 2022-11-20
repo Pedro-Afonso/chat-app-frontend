@@ -56,7 +56,7 @@ export const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
         placeholder="Insira sua senha"
         control={control}
       />
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" color="warning">
         Entrar
       </Button>
       <Button variant="contained" color="error">
