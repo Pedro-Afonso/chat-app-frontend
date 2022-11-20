@@ -10,6 +10,11 @@ import { ChatMessages } from '../ChatMessages'
 
 export const ChatRoom = () => {
   const chat = useAppSelector(state => state.chat.chat)
+  const authUser = useAppSelector(state => state.user.auth)
+
+  const contact = chat?.users.filter(
+    contact => contact._id !== authUser?._id
+  )[0]
 
   return (
     <Box
@@ -37,7 +42,7 @@ export const ChatRoom = () => {
               paddingY={1}
               paddingX={3}
             >
-              <Typography fontSize="2rem">{chat.name}</Typography>
+              <Typography fontSize="2rem">{contact?.name}</Typography>
               {chat.isGroupChat ? (
                 <DialogGroupDetails />
               ) : (
