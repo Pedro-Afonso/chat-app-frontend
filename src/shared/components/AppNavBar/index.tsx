@@ -1,4 +1,5 @@
-import SearchIcon from '@mui/icons-material/Search'
+import { useState } from 'react'
+
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import MailIcon from '@mui/icons-material/Mail'
@@ -11,22 +12,17 @@ import Badge from '@mui/material/Badge'
 import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
-interface IAppNavBarProps {
-  setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-  anchorElUser: null | HTMLElement
-  setAnchorElUser: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-  logout: () => void
-}
+import { logout as logoutAction } from '../../slices/userSlice'
+import { useAppDispatch } from '../../hooks'
+import { AppDrawer } from '../../components'
 
-export const AppNavBar: React.FC<IAppNavBarProps> = ({
-  setAnchorElNav,
-  anchorElUser,
-  setAnchorElUser,
-  logout
-}) => {
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
+export const AppNavBar = () => {
+  const dispatch = useAppDispatch()
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+
+  const logout = () => dispatch(logoutAction())
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -65,16 +61,7 @@ export const AppNavBar: React.FC<IAppNavBarProps> = ({
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <IconButton
-              onClick={handleOpenNavMenu}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <SearchIcon />
-            </IconButton>
+            <AppDrawer />
           </Box>
           <Box display="flex" justifyContent="center" flexGrow={1}>
             <Typography

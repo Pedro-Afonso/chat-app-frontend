@@ -1,6 +1,10 @@
+import { useState } from 'react'
+
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import SearchIcon from '@mui/icons-material/Search'
+import IconButton from '@mui/material/IconButton'
 import ListItem from '@mui/material/ListItem'
 import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
@@ -12,17 +16,15 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { accessChat } from '../../slices/chatSlice'
 import { AppSearchBar } from '../AppSearchBar'
 
-interface IAppDrawerProps {
-  anchorElNav: null | HTMLElement
-  setAnchorElNav: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}
-
-export const AppDrawer: React.FC<IAppDrawerProps> = ({
-  anchorElNav,
-  setAnchorElNav
-}) => {
+export const AppDrawer = () => {
   const dispatch = useAppDispatch()
   const userList = useAppSelector(state => state.user.users)
+
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget)
+  }
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
@@ -32,30 +34,42 @@ export const AppDrawer: React.FC<IAppDrawerProps> = ({
     dispatch(accessChat({ userId }))
   }
   return (
-    <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
-      <ListItem>
-        <AppSearchBar />
-      </ListItem>
-      <Divider />
-      <Box
-        sx={{ width: 300 }}
-        role="presentation"
-        onClick={handleCloseNavMenu}
-        onKeyDown={handleCloseNavMenu}
+    <>
+      <IconButton
+        onClick={handleOpenNavMenu}
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
       >
-        <List>
-          {userList.map(({ _id, name, email, profileImage }) => (
-            <ListItem key={_id} disablePadding>
-              <ListItemButton onClick={() => handleAccessChat(_id)}>
-                <ListItemIcon>
-                  <Avatar src={profileImage} alt={name} />
-                </ListItemIcon>
-                <ListItemText primary={name} secondary={email} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Drawer>
+        <SearchIcon />
+      </IconButton>
+      <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
+        <ListItem>
+          <AppSearchBar />
+        </ListItem>
+        <Divider />
+        <Box
+          sx={{ width: 300 }}
+          role="presentation"
+          onClick={handleCloseNavMenu}
+          onKeyDown={handleCloseNavMenu}
+        >
+          <List>
+            {userList.map(({ _id, name, email, profileImage }) => (
+              <ListItem key={_id} disablePadding>
+                <ListItemButton onClick={() => handleAccessChat(_id)}>
+                  <ListItemIcon>
+                    <Avatar src={profileImage} alt={name} />
+                  </ListItemIcon>
+                  <ListItemText primary={name} secondary={email} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   )
 }
