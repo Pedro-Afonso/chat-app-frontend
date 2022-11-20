@@ -1,15 +1,9 @@
-import {
-  ILoginForm,
-  IRegisterForm,
-  TAuthRes,
-  TCurrentUserRes,
-  TSearchRes
-} from '../interface'
+import { ILoginForm, TAuthRes, TCurrentUserRes, TSearchRes } from '../interface'
 import { tryCatchService } from '../utils'
 import { Api } from './api'
 
 // Register a user and sign in
-const register = async (user: IRegisterForm) => {
+const register = async (user: FormData) => {
   return tryCatchService(async () => {
     const { data } = await Api.post<TAuthRes>('/api/users/', user)
 

@@ -1,12 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import {
-  IRegisterForm,
-  TAuth,
-  IAuthState,
-  ILoginForm,
-  TUser
-} from '../interface'
+import { TAuth, IAuthState, ILoginForm, TUser } from '../interface'
 import { userService } from '../services/userService'
 
 const localUser = sessionStorage.getItem('user')
@@ -24,7 +18,7 @@ const initialState: IAuthState = {
 // Register a user and sign in
 export const register = createAsyncThunk<
   TAuth,
-  IRegisterForm,
+  FormData,
   { rejectValue: string }
 >('user/register', async (data, { rejectWithValue }) => {
   const res = await userService.register(data)

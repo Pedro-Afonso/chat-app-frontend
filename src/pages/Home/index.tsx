@@ -23,7 +23,7 @@ export const Home = () => {
     dispatch(login(data))
   }
 
-  const handleRegister = (data: IFormProps) => {
+  const handleRegister = (data: FormData) => {
     dispatch(register(data))
   }
 
