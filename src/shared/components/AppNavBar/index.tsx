@@ -13,11 +13,12 @@ import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
 import { logout as logoutAction } from '../../slices/userSlice'
-import { useAppDispatch } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import { AppDrawer } from '../../components'
 
 export const AppNavBar = () => {
   const dispatch = useAppDispatch()
+  const user = useAppSelector(state => state.user.user)
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -84,7 +85,7 @@ export const AppNavBar = () => {
             </IconButton>
             <Tooltip title="Mais Opções">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Re" src="/" />
+                <Avatar alt={user?.name} src={user?.profileImage} />
               </IconButton>
             </Tooltip>
           </Box>
