@@ -248,6 +248,12 @@ export const chatSlice = createSlice({
         state.loading = false
       })
       .addCase(accessChat.fulfilled, (state, action) => {
+        const newChatList = state.chats.filter(
+          chat => chat._id === action.payload.chat._id
+        )
+        if (newChatList.length === 0) {
+          state.chats.unshift(action.payload.chat)
+        }
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
