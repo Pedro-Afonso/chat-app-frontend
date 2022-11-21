@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks'
 import { getAllMessages, receivedMessage } from '../../slices/messageSlice'
 import { useSocket } from '../../hooks/useSocket'
 import { TMessage } from '../../interface'
+import { Typing } from '../Typing'
 
 export const ChatMessages = () => {
   const dispatch = useAppDispatch()
@@ -73,6 +74,7 @@ export const ChatMessages = () => {
       flexGrow={1}
       sx={styledScroll}
     >
+      <Typing />
       {messages.map(({ _id, sender, content }) => (
         <Box
           key={_id}
