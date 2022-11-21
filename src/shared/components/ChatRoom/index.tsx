@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
@@ -7,14 +9,23 @@ import { DialogUserDetails } from '../DialogUserDetails'
 import { DialogGroupDetails } from '../DialogGroupDetails'
 import { SendMessageForm } from '../SendMessageForm'
 import { ChatMessages } from '../ChatMessages'
+import { useSocket } from '../../hooks/useSocket'
 
 export const ChatRoom = () => {
   const chat = useAppSelector(state => state.chat.chat)
   const authUser = useAppSelector(state => state.user.auth)
 
+  const socket = useSocket()
+
   const contact = chat?.users.filter(
     contact => contact._id !== authUser?._id
   )[0]
+
+  useEffect(() => {
+    if (chat) {
+      socket.emit('join chat', chat._id)
+    }
+  }, [chat, socket])
 
   return (
     <Box
