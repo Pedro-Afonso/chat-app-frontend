@@ -27,6 +27,12 @@ export const SendMessageForm = () => {
 
     if (!lastChat.current) return
 
+    if (!message && typing.current) {
+      typing.current = false
+      socket.emit('stop typing', chat._id)
+      return
+    }
+
     if (!typing.current) {
       typing.current = true
       socket.emit('typing', chat._id)
