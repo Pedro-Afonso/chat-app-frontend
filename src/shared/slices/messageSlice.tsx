@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { socket } from '../Contexts/SocketContext'
 import { TMessage, IAuthState, IMessageState } from '../interface'
 import { messageService } from '../services'
 
@@ -31,7 +31,7 @@ export const sendMessage = createAsyncThunk<
     if ('errors' in res) {
       return rejectWithValue(res.errors[0])
     }
-
+    socket.emit('new message', res.chatMessage)
     return res
   }
 )
@@ -61,7 +61,10 @@ export const messageSlice = createSlice({
   name: 'message',
   initialState,
   reducers: {
-    reset: () => initialState
+    reset: () => initialState,
+    receivedMessage: (state, action: PayloadAction<TMessage>) => {
+      state.chatMessages.unshift(action.payload)
+    }
   },
   extraReducers: builder => {
     builder
@@ -72,6 +75,7 @@ export const messageSlice = createSlice({
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.chatMessages.unshift(action.payload.chatMessage)
+        state.chatMessage = action.payload.chatMessage
         state.loading = false
         state.success = true
       })
@@ -96,4 +100,5 @@ export const messageSlice = createSlice({
   }
 })
 
+export const { reset, receivedMessage } = messageSlice.actions
 export const { reducer: messageReducer } = messageSlice
