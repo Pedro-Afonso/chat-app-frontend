@@ -73,7 +73,7 @@ export const AppNavBar = () => {
                 letterSpacing: '.3rem'
               }}
             >
-              LOGO
+              REAL-TIME-CHAT
             </Typography>
           </Box>
 
