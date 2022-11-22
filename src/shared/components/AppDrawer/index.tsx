@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
@@ -12,27 +10,18 @@ import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { accessChat } from '../../slices/chatSlice'
+import { useAppDrawer } from './useAppDrawer'
 import { AppSearchBar } from '../AppSearchBar'
 
 export const AppDrawer = () => {
-  const dispatch = useAppDispatch()
-  const userList = useAppSelector(state => state.user.users)
+  const {
+    userList,
+    anchorElNav,
+    handleOpenNavMenu,
+    handleCloseNavMenu,
+    handleAccessChat
+  } = useAppDrawer()
 
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
-
-  const handleAccessChat = (userId: string) => {
-    dispatch(accessChat({ userId }))
-  }
   return (
     <>
       <IconButton

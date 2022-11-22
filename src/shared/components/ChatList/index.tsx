@@ -7,27 +7,17 @@ import Paper from '@mui/material/Paper'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-import { useAppDispatch, useAppSelector } from '../../hooks'
 import { ChatListHeader } from '../ChatListHeader'
-import { accessChat, selectChat } from '../../slices/chatSlice'
+import { useChatList } from './useChatList'
 
 export const ChatList = () => {
-  const dispatch = useAppDispatch()
-  const chat = useAppSelector(state => state.chat.chat)
-  const chatList = useAppSelector(state => state.chat.chats)
+  const { chat, chatList, handleAccessChat, handleAccessGroupChat } =
+    useChatList()
 
   const typographyStyle: React.CSSProperties = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
-  }
-
-  const handleAccessChat = (userId: string) => {
-    dispatch(accessChat({ userId }))
-  }
-
-  const handleAccessGroupChat = (chatId: string) => {
-    dispatch(selectChat(chatId))
   }
 
   return (

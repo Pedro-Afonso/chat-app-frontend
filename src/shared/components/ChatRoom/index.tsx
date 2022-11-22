@@ -1,41 +1,17 @@
-import { useEffect } from 'react'
-
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
-import { useAppDispatch, useAppSelector } from '../../hooks'
 import { DialogGroupDetails } from '../DialogGroupDetails'
 import { DialogUserDetails } from '../DialogUserDetails'
 import { SendMessageForm } from '../SendMessageForm'
-import { removeChat } from '../../slices/chatSlice'
-import { useSocket } from '../../hooks/useSocket'
 import { ChatMessages } from '../ChatMessages'
+import { useChatRoom } from './useChatRoom'
 
 export const ChatRoom = () => {
-  const chat = useAppSelector(state => state.chat.chat)
-  const authUser = useAppSelector(state => state.user.auth)
-
-  const dispatch = useAppDispatch()
-
-  const socket = useSocket()
-
-  const contact = chat?.users.filter(
-    contact => contact._id !== authUser?._id
-  )[0]
-
-  const handleRemoveChat = () => {
-    dispatch(removeChat())
-  }
-
-  useEffect(() => {
-    if (chat) {
-      socket.emit('join chat', chat._id)
-    }
-  }, [chat, socket])
-
+  const { chat, contact, handleRemoveChat } = useChatRoom()
   return (
     <Box
       display={{ xs: chat ? 'flex' : 'none', md: 'flex' }}

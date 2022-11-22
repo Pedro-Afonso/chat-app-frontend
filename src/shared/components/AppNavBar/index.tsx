@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import MailIcon from '@mui/icons-material/Mail'
@@ -12,25 +10,17 @@ import Badge from '@mui/material/Badge'
 import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
-import { logout as logoutAction } from '../../slices/userSlice'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppNavBar } from './useAppNavBar'
 import { AppDrawer } from '../../components'
 
 export const AppNavBar = () => {
-  const dispatch = useAppDispatch()
-  const user = useAppSelector(state => state.user.user)
-
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-
-  const logout = () => dispatch(logoutAction())
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
+  const {
+    user,
+    logout,
+    anchorElUser,
+    handleOpenUserMenu,
+    handleCloseUserMenu
+  } = useAppNavBar()
 
   const renderMenu = (
     <Menu

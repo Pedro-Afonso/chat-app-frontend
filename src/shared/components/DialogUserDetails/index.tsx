@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
@@ -11,23 +9,11 @@ import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
-import { useAppSelector } from '../../hooks'
+import { useDialogUserDetails } from './useDialogUserDetails'
 
 export const DialogUserDetails = () => {
-  const [modal, setModal] = useState(false)
-
-  const authUser = useAppSelector(state => state.user.user)
-  const chat = useAppSelector(state => state.chat.chat)
-
-  const contact =
-    chat && authUser && chat.users.filter(user => user._id !== authUser._id)[0]
-
-  const handleOpenUserDetails = () => {
-    setModal(true)
-  }
-  const handleCloseModal = () => {
-    setModal(false)
-  }
+  const { modal, contact, handleOpenUserDetails, handleCloseModal } =
+    useDialogUserDetails()
 
   return (
     <>

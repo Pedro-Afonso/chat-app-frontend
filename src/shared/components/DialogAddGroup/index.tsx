@@ -1,21 +1,12 @@
-import { useState } from 'react'
-
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import Add from '@mui/icons-material/Add'
 
 import { AddGroupForm } from '../AddGroupForm'
+import { useAddDialogGroup } from './useDialogAddGroup'
 
 export const DialogAddGroup = () => {
-  const [modal, setModal] = useState(false)
-
-  const handleCloseModal = () => {
-    setModal(false)
-  }
-
-  const handleOpenModal = () => {
-    setModal(true)
-  }
+  const { modal, handleCloseModal, handleOpenModal } = useAddDialogGroup()
 
   return (
     <>

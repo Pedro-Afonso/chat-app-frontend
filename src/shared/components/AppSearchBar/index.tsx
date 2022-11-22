@@ -1,11 +1,7 @@
 import { styled, alpha } from '@mui/material/styles'
-import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-
-import { useState, useEffect } from 'react'
-
-import { useAppDispatch, useDebounce } from '../../hooks'
-import { searchUsers } from '../../slices/userSlice'
+import { useAppSearchBar } from './useAppSearchBar'
+import InputBase from '@mui/material/InputBase'
 
 const SearchField = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -39,17 +35,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export const AppSearchBar = () => {
-  const dispatch = useAppDispatch()
-
-  const [query, setQuery] = useState('')
-
-  const { debounce } = useDebounce()
-
-  useEffect(() => {
-    debounce(() => {
-      dispatch(searchUsers(query))
-    })
-  }, [query, debounce, dispatch])
+  const { query, setQuery } = useAppSearchBar()
 
   return (
     <SearchField>

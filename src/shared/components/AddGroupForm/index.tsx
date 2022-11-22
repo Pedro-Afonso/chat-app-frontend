@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import ListItemButton from '@mui/material/ListItemButton'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
@@ -16,62 +14,26 @@ import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
 import { AppSearchBar } from '../AppSearchBar'
-import { useAppSelector, useAppDispatch } from '../../hooks'
-import { createGroupChat } from '../../slices/chatSlice'
+import { useAddGroupForm } from './useAddGroupForm'
 
 interface IAddGroupFormProps {
   closeModal: () => void
 }
 
 export const AddGroupForm: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
-  const dispatch = useAppDispatch()
-
-  const [groupName, setGroupName] = useState('')
-  const [addData, setAddData] = useState<{ id: string; name: string }[]>([])
-
-  const userList = useAppSelector(state => state.user.users)
-
-  const handleCreateGroup = () => {
-    if (!groupName || addData.length < 2) return
-
-    dispatch(
-      createGroupChat({
-        name: groupName,
-        users: addData.map(data => data.id)
-      })
-    )
-
-    setGroupName('')
-    closeModal()
-    setAddData([])
-  }
+  const {
+    setGroupName,
+    setAddData,
+    groupName,
+    addData,
+    userList,
+    handleCreateGroup
+  } = useAddGroupForm(closeModal)
 
   return (
     <>
       <DialogTitle>Criar um novo grupo</DialogTitle>
-      <DialogContent
-        sx={{
-          overflow: 'auto',
-          maxHeight: '100%',
-          '&::-webkit-scrollbar': {
-            width: '3px'
-          },
-
-          '&::-webkit-scrollbar-track': {
-            boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
-            borderRadius: '10px'
-          },
-
-          '&::-webkit-scrollbar-thumb': {
-            background: '#fbc02d',
-            borderRadius: '10px'
-          },
-
-          '&::-webkit-scrollbar-thumb:hover': {
-            background: 'rgb(255, 251, 251)'
-          }
-        }}
-      >
+      <DialogContent>
         <TextField
           value={groupName}
           onChange={e => setGroupName(e.target.value)}
