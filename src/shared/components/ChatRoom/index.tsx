@@ -1,6 +1,4 @@
-import ArrowBack from '@mui/icons-material/ArrowBack'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
@@ -11,10 +9,10 @@ import { ChatMessages } from '../ChatMessages'
 import { useChatRoom } from './useChatRoom'
 
 export const ChatRoom = () => {
-  const { chat, contact, handleRemoveChat } = useChatRoom()
+  const { chat, contact } = useChatRoom()
   return (
     <Box
-      display={{ xs: chat ? 'flex' : 'none', md: 'flex' }}
+      display="flex"
       width={{ xs: '100%', md: '60vw' }}
       padding={{ xs: '1rem', md: '1rem' }}
       paddingBottom="0px"
@@ -38,16 +36,6 @@ export const ChatRoom = () => {
               paddingY={1}
               paddingX={3}
             >
-              <Box display={{ xs: chat ? 'flex' : 'none', md: 'none' }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<ArrowBack />}
-                  onClick={handleRemoveChat}
-                >
-                  Voltar
-                </Button>
-              </Box>
               <Typography fontSize="2rem">{contact?.name}</Typography>
               {chat.isGroupChat ? (
                 <DialogGroupDetails />
