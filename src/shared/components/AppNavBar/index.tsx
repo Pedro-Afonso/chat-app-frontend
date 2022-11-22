@@ -1,17 +1,16 @@
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import MailIcon from '@mui/icons-material/Mail'
 import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
 import Avatar from '@mui/material/Avatar'
 import AppBar from '@mui/material/AppBar'
-import Badge from '@mui/material/Badge'
 import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
 import { useAppNavBar } from './useAppNavBar'
 import { AppDrawer } from '../../components'
+import { Notifications } from '../Notifications'
 
 export const AppNavBar = () => {
   const {
@@ -68,11 +67,7 @@ export const AppNavBar = () => {
           </Box>
 
           <Box display="flex" justifyContent="end" flexGrow={1} gap={1}>
-            <IconButton size="large" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+            <Notifications />
             <Tooltip title="Mais Opções">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={user?.name} src={user?.profileImage} />
