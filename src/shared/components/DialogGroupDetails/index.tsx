@@ -64,28 +64,6 @@ export const DialogGroupDetails = () => {
     setGroupName(chat.name)
   }, [chat])
 
-  const styledScroll = {
-    overflow: 'auto',
-    maxHeight: '100%',
-    '&::-webkit-scrollbar': {
-      width: '3px'
-    },
-
-    '&::-webkit-scrollbar-track': {
-      boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb': {
-      background: '#fbc02d',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb:hover': {
-      background: 'rgb(255, 251, 251)'
-    }
-  }
-
   const handleOpenGroupDetails = () => {
     setModal(true)
   }
@@ -144,7 +122,7 @@ export const DialogGroupDetails = () => {
 
         <Divider />
 
-        <DialogContent sx={styledScroll}>
+        <DialogContent>
           <Stack direction="row" flexWrap={'wrap'} gap={1}>
             {memberList.map(({ _id, name, profileImage }) => (
               <Chip
@@ -159,7 +137,7 @@ export const DialogGroupDetails = () => {
 
         <Divider />
 
-        <DialogContent sx={styledScroll}>
+        <DialogContent>
           <SearchListMemo chatId={chatId} />
         </DialogContent>
         <DialogActions>

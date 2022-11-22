@@ -19,28 +19,6 @@ export const ChatMessages = () => {
 
   const socket = useSocket()
 
-  const styledScroll = {
-    overflow: 'auto',
-    maxHeight: '100%',
-    '&::-webkit-scrollbar': {
-      width: '3px'
-    },
-
-    '&::-webkit-scrollbar-track': {
-      boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb': {
-      background: '#fbc02d',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb:hover': {
-      background: 'rgb(255, 251, 251)'
-    }
-  }
-
   const handleMessageReceived = useCallback(
     (newMessage: TMessage) => {
       if (!newMessage) return
@@ -72,7 +50,6 @@ export const ChatMessages = () => {
       component={Paper}
       elevation={24}
       flexGrow={1}
-      sx={styledScroll}
     >
       <Typing />
       {messages.map(({ _id, sender, content }) => (

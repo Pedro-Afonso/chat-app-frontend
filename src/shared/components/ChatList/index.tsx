@@ -13,34 +13,13 @@ import { accessChat, selectChat } from '../../slices/chatSlice'
 
 export const ChatList = () => {
   const dispatch = useAppDispatch()
+  const chat = useAppSelector(state => state.chat.chat)
   const chatList = useAppSelector(state => state.chat.chats)
 
   const typographyStyle: React.CSSProperties = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
-  }
-
-  const styledScroll = {
-    overflow: 'auto',
-    maxHeight: '100%',
-    '&::-webkit-scrollbar': {
-      width: '3px'
-    },
-
-    '&::-webkit-scrollbar-track': {
-      boxShadow: 'inset 0 0 5px rgb(255, 251, 251)',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb': {
-      background: '#fbc02d',
-      borderRadius: '10px'
-    },
-
-    '&::-webkit-scrollbar-thumb:hover': {
-      background: 'rgb(255, 251, 251)'
-    }
   }
 
   const handleAccessChat = (userId: string) => {
@@ -53,7 +32,7 @@ export const ChatList = () => {
 
   return (
     <Box
-      display="flex"
+      display={{ xs: !chat ? 'flex' : 'none', md: 'flex' }}
       width={{ xs: '100%', md: '35vw' }}
       padding={{ xs: '1rem', md: '1rem' }}
       paddingBottom="0px"
@@ -64,7 +43,7 @@ export const ChatList = () => {
         flexGrow={1}
         height="calc(100vh - 100px)"
       >
-        <List subheader={<ChatListHeader />} sx={styledScroll}>
+        <List subheader={<ChatListHeader />}>
           {chatList.map(({ _id, name, isGroupChat, latestMessage, users }) => (
             <ListItem key={_id} disablePadding>
               {isGroupChat ? (
