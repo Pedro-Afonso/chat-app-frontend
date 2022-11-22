@@ -154,6 +154,9 @@ export const chatSlice = createSlice({
     reset: () => initialState,
     selectChat: (state, action: PayloadAction<string>) => {
       state.chat = state.chats.filter(chat => chat._id === action.payload)[0]
+    },
+    removeChat: state => {
+      state.chat = null
     }
   },
   extraReducers: builder => {
@@ -265,5 +268,5 @@ export const chatSlice = createSlice({
   }
 })
 
-export const { reset, selectChat } = chatSlice.actions
+export const { reset, selectChat, removeChat } = chatSlice.actions
 export const { reducer: chatReducer } = chatSlice
