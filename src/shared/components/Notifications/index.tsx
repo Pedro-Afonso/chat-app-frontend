@@ -1,21 +1,32 @@
 import { useState } from 'react'
 
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import MailIcon from '@mui/icons-material/Mail'
-import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
 import Badge from '@mui/material/Badge'
 import Menu from '@mui/material/Menu'
 
+import {
+  INotification,
+  removeNotification
+} from '../../slices/notificationSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { selectChat } from '../../slices/chatSlice'
+
 interface IRenderMenuProps {
   anchorElNot: null | HTMLElement
   handleCloseNotMenu: () => void
+  notifications: INotification[]
+  handleClick: (chatId: string) => () => void
 }
 
 const RenderMenu: React.FC<IRenderMenuProps> = ({
   anchorElNot,
-  handleCloseNotMenu
+  handleCloseNotMenu,
+  notifications,
+  handleClick
 }) => {
   return (
     <Menu
@@ -33,15 +44,33 @@ const RenderMenu: React.FC<IRenderMenuProps> = ({
       open={Boolean(anchorElNot)}
       onClose={handleCloseNotMenu}
     >
-      <MenuItem onClick={handleCloseNotMenu}>
-        <Typography textAlign="center">Em breve...</Typography>
-      </MenuItem>
+      {notifications.map(({ name, messageId, chatId }) => (
+        <MenuItem key={messageId} onClick={handleClick(chatId)}>
+          <Typography textAlign="center">
+            Você tem novas mensagens em {name}
+          </Typography>
+        </MenuItem>
+      ))}
     </Menu>
   )
 }
 
 export const Notifications = () => {
   const [anchorElNot, setAnchorElNot] = useState<null | HTMLElement>(null)
+
+  const dispatch = useAppDispatch()
+
+  const notifications = useAppSelector(
+    state => state.notification.notifications
+  )
+
+  const handleClick = (chatId: string) => {
+    return () => {
+      dispatch(removeNotification({ chatId }))
+      dispatch(selectChat(chatId))
+      handleCloseNotMenu()
+    }
+  }
 
   const handleCloseNotMenu = () => {
     setAnchorElNot(null)
@@ -54,7 +83,7 @@ export const Notifications = () => {
     <>
       <Tooltip title="Mais Opções">
         <IconButton size="large" color="inherit" onClick={handleOpenNotMenu}>
-          <Badge badgeContent={0} color="error">
+          <Badge badgeContent={notifications.length} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -62,6 +91,8 @@ export const Notifications = () => {
       <RenderMenu
         anchorElNot={anchorElNot}
         handleCloseNotMenu={handleCloseNotMenu}
+        notifications={notifications}
+        handleClick={handleClick}
       />
     </>
   )

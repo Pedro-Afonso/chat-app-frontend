@@ -4,6 +4,7 @@ import { getAllMessages, receivedMessage } from '../../slices/messageSlice'
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import { useSocket } from '../../hooks/useSocket'
 import { TMessage } from '../../interface'
+import { addNotification } from '../../slices/notificationSlice'
 
 export const useChatMessages = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +19,8 @@ export const useChatMessages = () => {
       if (!newMessage) return
       if (chat?._id === newMessage.chat._id) {
         dispatch(receivedMessage(newMessage))
+      } else {
+        dispatch(addNotification(newMessage))
       }
     },
     [dispatch, chat]
