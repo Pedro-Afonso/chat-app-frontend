@@ -8,10 +8,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Badge from '@mui/material/Badge'
 import Menu from '@mui/material/Menu'
 
-import {
-  INotification,
-  removeNotification
-} from '../../slices/notificationSlice'
+import { INotification } from '../../slices/notificationSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { selectChat } from '../../slices/chatSlice'
 
@@ -66,7 +63,6 @@ export const Notifications = () => {
 
   const handleClick = (chatId: string) => {
     return () => {
-      dispatch(removeNotification({ chatId }))
       dispatch(selectChat(chatId))
       handleCloseNotMenu()
     }
