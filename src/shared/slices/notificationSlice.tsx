@@ -21,6 +21,12 @@ export const notificationSlice = createSlice({
   reducers: {
     reset: () => initialState,
     addNotification: (state, action: PayloadAction<TMessage>) => {
+      if (
+        state.notifications
+          .map(({ chatId }) => chatId)
+          .includes(action.payload.chat._id)
+      )
+        return
       const data = {
         messageId: action.payload._id,
         chatId: action.payload.chat._id
@@ -30,8 +36,6 @@ export const notificationSlice = createSlice({
       } else {
         data.name = action.payload.sender.name
       }
-
-      if (state.notifications.includes(data)) return
 
       state.notifications.unshift(data)
     },
