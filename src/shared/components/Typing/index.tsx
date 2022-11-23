@@ -5,6 +5,7 @@ import { keyframes } from '@mui/system/'
 import Box from '@mui/material/Box'
 
 import { useSocket } from '../../hooks/useSocket'
+import { useAppSelector } from '../../hooks'
 
 const Dot = ({ delay }: { delay: number }) => {
   const animation = keyframes`
@@ -35,6 +36,8 @@ const Dot = ({ delay }: { delay: number }) => {
 }
 
 export const Typing = () => {
+  const chat = useAppSelector(state => state.chat.chat)
+
   const socket = useSocket()
 
   const [isTyping, setIsTyping] = useState(false)
@@ -46,6 +49,13 @@ export const Typing = () => {
   const handleStopTyping = useCallback(() => {
     setIsTyping(false)
   }, [])
+
+  useEffect(() => {
+    if (chat) {
+      setIsTyping(false)
+    }
+  }, [chat])
+
   useEffect(() => {
     socket.on('typing', handleTyping)
     socket.on('stop typing', handleStopTyping)
