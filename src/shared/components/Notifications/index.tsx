@@ -81,12 +81,19 @@ export const Notifications = () => {
 
   return (
     <>
-      <Tooltip title="Mais Opções">
-        <IconButton size="large" color="inherit" onClick={handleOpenNotMenu}>
-          <Badge badgeContent={notifications.length} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
+      <Tooltip title="Notificações">
+        <span>
+          <IconButton
+            size="large"
+            color="inherit"
+            disabled={notifications.length === 0}
+            onClick={handleOpenNotMenu}
+          >
+            <Badge badgeContent={notifications.length} color="error">
+              <MailIcon />
+            </Badge>
+          </IconButton>
+        </span>
       </Tooltip>
       <RenderMenu
         anchorElNot={anchorElNot}
