@@ -36,11 +36,16 @@ export const ChatRoom = () => {
               paddingY={1}
               paddingX={3}
             >
-              <Typography fontSize="2rem">{contact?.name}</Typography>
               {chat.isGroupChat ? (
-                <DialogGroupDetails />
+                <>
+                  <Typography fontSize="2rem">{chat?.name}</Typography>
+                  <DialogGroupDetails />
+                </>
               ) : (
-                <DialogUserDetails />
+                <>
+                  <Typography fontSize="2rem">{contact?.name}</Typography>
+                  <DialogUserDetails />
+                </>
               )}
             </Box>
             {/* /Chat header */}
