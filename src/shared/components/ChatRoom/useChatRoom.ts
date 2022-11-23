@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useAppSelector } from '../../hooks'
 
@@ -7,6 +7,7 @@ import { useSocket } from '../../hooks/useSocket'
 export const useChatRoom = () => {
   const chat = useAppSelector(state => state.chat.chat)
   const authUser = useAppSelector(state => state.user.auth)
+  const prevChat = useRef('')
 
   const socket = useSocket()
 
@@ -15,10 +16,13 @@ export const useChatRoom = () => {
   )[0]
 
   useEffect(() => {
-    if (chat) {
-      socket.emit('join chat', chat._id)
-    }
+    if (!chat) return
+    if (prevChat.current === chat._id) return
+
+    socket.emit('join chat', { chatId: chat._id, leave: prevChat.current })
+    prevChat.current = chat._id
   }, [chat, socket])
+
   return {
     chat,
     contact
