@@ -5,15 +5,25 @@ import { useTheme } from '@mui/material/styles'
 
 import { accessChat, selectChat } from '../../slices/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { TUser } from '../../interface'
 
 export const useChatList = () => {
   const dispatch = useAppDispatch()
+  const authUser = useAppSelector(state => state.user.user)
   const chatList = useAppSelector(state => state.chat.chats)
   const [isOpen, setIsOpen] = useState(false)
 
   const theme = useTheme()
 
   const isUpMd = useMediaQuery(theme.breakpoints.up('md'))
+
+  const removeAuthUser = (users: TUser[]) => {
+    if (authUser) {
+      return users.filter(user => user._id !== authUser._id)[0]
+    } else {
+      return users[0]
+    }
+  }
 
   const handleCloseDrawer = () => {
     setIsOpen(false)
@@ -39,10 +49,11 @@ export const useChatList = () => {
 
   return {
     chatList,
-    handleAccessChat,
-    handleAccessGroupChat,
     isUpMd,
     isOpen,
+    removeAuthUser,
+    handleAccessChat,
+    handleAccessGroupChat,
     handleCloseDrawer,
     handleOpenDrawer
   }

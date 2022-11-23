@@ -70,6 +70,7 @@ export const ChatList = () => {
     isOpen,
     isUpMd,
     chatList,
+    removeAuthUser,
     handleCloseDrawer,
     handleOpenDrawer,
     handleAccessChat,
@@ -117,16 +118,18 @@ export const ChatList = () => {
                     </ListItemButton>
                   ) : (
                     <ListItemButton
-                      onClick={() => handleAccessChat(users[0]._id)}
+                      onClick={() =>
+                        handleAccessChat(removeAuthUser(users)._id)
+                      }
                     >
                       <ListItemIcon>
                         <Avatar
-                          src={users[0].profileImage}
-                          alt={users[0].name}
+                          src={removeAuthUser(users).profileImage}
+                          alt={removeAuthUser(users).name}
                         />
                       </ListItemIcon>
                       <ListItemText
-                        primary={users[0].name}
+                        primary={removeAuthUser(users).name}
                         secondary={
                           latestMessage?.content || 'Envie uma mensagem 😊'
                         }
