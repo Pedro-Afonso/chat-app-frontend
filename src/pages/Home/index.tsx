@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Backdrop, Box, CircularProgress } from '@mui/material'
 
 import {
   FullWidthTabs,
@@ -6,7 +6,7 @@ import {
   RegisterForm,
   LoginForm
 } from '../../shared/components'
-import { useAppDispatch } from '../../shared/hooks'
+import { useAppDispatch, useAppSelector } from '../../shared/hooks'
 import { login, register } from '../../shared/slices/userSlice'
 
 interface IFormProps {
@@ -14,6 +14,18 @@ interface IFormProps {
   email: string
   password: string
   confirmPassword: string
+}
+
+const BackdropHome = () => {
+  const userLoading = useAppSelector(state => state.user.loading)
+  return (
+    <Backdrop
+      sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+      open={userLoading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  )
 }
 
 export const Home = () => {
@@ -49,6 +61,7 @@ export const Home = () => {
           }
         ]}
       />
+      <BackdropHome />
       <FloatSquaresAnimation />
     </Box>
   )
