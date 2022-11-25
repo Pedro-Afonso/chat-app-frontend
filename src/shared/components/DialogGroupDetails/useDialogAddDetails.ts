@@ -1,7 +1,6 @@
-import { useState, useEffect, memo } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { addToGroup, removeUser, renameGroup } from '../../slices/chatSlice'
-import { AppSearchBar } from '../AppSearchBar'
+import { removeUser, renameGroup } from '../../slices/chatSlice'
 
 export const useDialogAddDetails = () => {
   const [groupName, setGroupName] = useState('')
