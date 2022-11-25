@@ -75,7 +75,7 @@ export const messageSlice = createSlice({
       .addCase(sendMessage.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.chatMessages.unshift(action.payload.chatMessage)
@@ -90,7 +90,7 @@ export const messageSlice = createSlice({
       .addCase(getAllMessages.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
       })
       .addCase(getAllMessages.fulfilled, (state, action) => {
         state.chatMessages = action.payload.chatMessages

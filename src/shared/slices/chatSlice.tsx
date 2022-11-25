@@ -175,7 +175,7 @@ export const chatSlice = createSlice({
         state.chats = []
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
       })
       .addCase(getAllChatsByUser.fulfilled, (state, action) => {
         state.chats = action.payload
@@ -189,7 +189,7 @@ export const chatSlice = createSlice({
       .addCase(createGroupChat.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
         state.message = null
       })
       .addCase(createGroupChat.fulfilled, (state, action) => {
@@ -206,7 +206,7 @@ export const chatSlice = createSlice({
       .addCase(addToGroup.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
         state.message = null
       })
       .addCase(addToGroup.fulfilled, (state, action) => {
@@ -226,7 +226,7 @@ export const chatSlice = createSlice({
       .addCase(removeUser.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
         state.message = null
       })
       .addCase(removeUser.fulfilled, (state, action) => {
@@ -246,7 +246,7 @@ export const chatSlice = createSlice({
       .addCase(renameGroup.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
         state.message = null
       })
       .addCase(renameGroup.fulfilled, (state, action) => {
@@ -266,7 +266,7 @@ export const chatSlice = createSlice({
       .addCase(accessChat.pending, state => {
         state.error = null
         state.success = false
-        state.loading = false
+        state.loading = true
         state.message = null
       })
       .addCase(accessChat.fulfilled, (state, action) => {
