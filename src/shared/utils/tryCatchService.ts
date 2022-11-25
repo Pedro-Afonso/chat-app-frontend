@@ -7,6 +7,6 @@ export const tryCatchService = async <F extends () => any>(
   try {
     return await cb()
   } catch (error) {
-    return { errors: [handleAppError(error)] } as TErrors
+    return { errors: handleAppError(error) } as TErrors
   }
 }
