@@ -24,4 +24,5 @@ export interface IChatState {
   error: string | null
   success: boolean
   loading: boolean
+  message: string | null
 }

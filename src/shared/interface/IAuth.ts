@@ -37,4 +37,5 @@ export interface IAuthState {
   error: string | null
   success: boolean
   loading: boolean
+  message: string | null
 }

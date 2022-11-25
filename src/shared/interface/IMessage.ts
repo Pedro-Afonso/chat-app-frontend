@@ -28,4 +28,5 @@ export interface IMessageState {
   error: string | null
   success: boolean
   loading: boolean
+  message: string | null
 }
