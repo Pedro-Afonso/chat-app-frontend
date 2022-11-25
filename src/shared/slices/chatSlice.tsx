@@ -8,7 +8,8 @@ const initialState: IChatState = {
   chat: null,
   error: null,
   success: false,
-  loading: false
+  loading: false,
+  message: null
 }
 
 // Fetch all users chat
@@ -152,6 +153,15 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    clearChatMessage: state => {
+      state.message = null
+    },
+    clearChatError: state => {
+      state.error = null
+    },
+    setChatError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload
+    },
     selectChat: (state, action: PayloadAction<string>) => {
       state.chat = state.chats.filter(chat => chat._id === action.payload)[0]
     },
@@ -180,12 +190,14 @@ export const chatSlice = createSlice({
         state.error = null
         state.success = false
         state.loading = false
+        state.message = null
       })
       .addCase(createGroupChat.fulfilled, (state, action) => {
         state.chats.unshift(action.payload.chat)
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
+        state.message = action.payload.message
       })
       .addCase(createGroupChat.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
@@ -195,6 +207,7 @@ export const chatSlice = createSlice({
         state.error = null
         state.success = false
         state.loading = false
+        state.message = null
       })
       .addCase(addToGroup.fulfilled, (state, action) => {
         const newChatList = state.chats.map(chat =>
@@ -204,6 +217,7 @@ export const chatSlice = createSlice({
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
+        state.message = action.payload.message
       })
       .addCase(addToGroup.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
@@ -213,6 +227,7 @@ export const chatSlice = createSlice({
         state.error = null
         state.success = false
         state.loading = false
+        state.message = null
       })
       .addCase(removeUser.fulfilled, (state, action) => {
         const newChatList = state.chats.map(chat =>
@@ -222,6 +237,7 @@ export const chatSlice = createSlice({
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
+        state.message = action.payload.message
       })
       .addCase(removeUser.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
@@ -231,6 +247,7 @@ export const chatSlice = createSlice({
         state.error = null
         state.success = false
         state.loading = false
+        state.message = null
       })
       .addCase(renameGroup.fulfilled, (state, action) => {
         const newChatList = state.chats.map(chat =>
@@ -240,6 +257,7 @@ export const chatSlice = createSlice({
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
+        state.message = action.payload.message
       })
       .addCase(renameGroup.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
@@ -249,6 +267,7 @@ export const chatSlice = createSlice({
         state.error = null
         state.success = false
         state.loading = false
+        state.message = null
       })
       .addCase(accessChat.fulfilled, (state, action) => {
         const newChatList = state.chats.filter(
@@ -260,6 +279,7 @@ export const chatSlice = createSlice({
         state.chat = action.payload.chat
         state.loading = false
         state.success = true
+        state.message = action.payload.message
       })
       .addCase(accessChat.rejected, (state, action) => {
         state.error = action.payload ? action.payload : null
@@ -268,5 +288,12 @@ export const chatSlice = createSlice({
   }
 })
 
-export const { reset, selectChat, removeChat } = chatSlice.actions
+export const {
+  reset,
+  selectChat,
+  removeChat,
+  clearChatMessage,
+  clearChatError,
+  setChatError
+} = chatSlice.actions
 export const { reducer: chatReducer } = chatSlice

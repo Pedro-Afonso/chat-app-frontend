@@ -8,7 +8,8 @@ const initialState: IMessageState = {
   chatMessages: [],
   error: null,
   success: false,
-  loading: false
+  loading: false,
+  message: null
 }
 
 // Send message to chat
@@ -62,6 +63,9 @@ export const messageSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    clearMessageError: state => {
+      state.error = null
+    },
     receivedMessage: (state, action: PayloadAction<TMessage>) => {
       state.chatMessages.unshift(action.payload)
     }
@@ -100,5 +104,6 @@ export const messageSlice = createSlice({
   }
 })
 
-export const { reset, receivedMessage } = messageSlice.actions
+export const { reset, receivedMessage, clearMessageError } =
+  messageSlice.actions
 export const { reducer: messageReducer } = messageSlice

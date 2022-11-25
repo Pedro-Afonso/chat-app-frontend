@@ -12,7 +12,8 @@ const initialState: IAuthState = {
   users: [],
   error: null,
   success: false,
-  loading: false
+  loading: false,
+  message: null
 }
 
 // Register a user and sign in
@@ -90,6 +91,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    clearUserError: state => {
+      state.error = null
+    },
     logout: state => {
       state.auth = null
       state.user = null
@@ -166,5 +170,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const { reset, logout } = userSlice.actions
+export const { reset, logout, clearUserError } = userSlice.actions
 export const { reducer: userReducer } = userSlice
