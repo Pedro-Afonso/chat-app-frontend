@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 
 import { AppSocketProvider } from './shared/Contexts/SocketContext'
 import { AppThemeProvider } from './shared/Contexts/ThemeContext'
+import { AppSnackBar } from './shared/components'
 import { store } from './shared/store'
 import { AppRoutes } from './routes'
 
@@ -16,6 +17,7 @@ export const App = () => {
           </BrowserRouter>
         </AppThemeProvider>
       </AppSocketProvider>
+      <AppSnackBar />
     </Provider>
   )
 }
