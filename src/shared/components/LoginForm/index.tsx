@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material'
+import { Avatar, Box, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { VTextField } from '../Forms'
 import * as yup from 'yup'
@@ -59,9 +59,54 @@ export const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
       <Button type="submit" variant="contained" color="warning">
         Entrar
       </Button>
-      <Button variant="contained" color="error">
-        Usar as credenciais de um convidado
+
+      {/* Guest credentials */}
+      <Button
+        startIcon={
+          <Avatar
+            src="https://res.cloudinary.com/drjnirfci/image/upload/v1669297921/chat-app/i1e24pvji2z5naiakjlq.png"
+            alt="Mario"
+          />
+        }
+        variant="contained"
+        color="error"
+        onClick={() =>
+          onSubmit({ email: 'mario@email.com', password: '123123123' })
+        }
+      >
+        Usar as credenciais do Mario
       </Button>
+      <Button
+        startIcon={
+          <Avatar
+            src="https://res.cloudinary.com/drjnirfci/image/upload/v1669297887/chat-app/froztm6yvlftzinraslk.png"
+            alt="Yoshi"
+          />
+        }
+        variant="contained"
+        color="error"
+        onClick={() =>
+          onSubmit({ email: 'yoshi@email.com', password: '123123123' })
+        }
+      >
+        Usar as credenciais do Yoshi
+      </Button>
+      <Button
+        startIcon={
+          <Avatar
+            src="https://res.cloudinary.com/drjnirfci/image/upload/v1669302418/chat-app/ikkhi3gvd6b0nhfztp1i.png"
+            alt="Peach"
+          />
+        }
+        variant="contained"
+        color="error"
+        onClick={() =>
+          onSubmit({ email: 'peach@email.com', password: '123123123' })
+        }
+      >
+        Usar as credenciais da Peach
+      </Button>
+      {/* /Guest credentials */}
     </Box>
   )
 }
