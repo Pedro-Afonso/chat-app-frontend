@@ -21,15 +21,24 @@
 
 # :camera_flash: Screenshots do Projeto
 
-![APP_FULLSCREEN](https://user-images.githubusercontent.com/50973575/203847038-ed899369-fc18-4ca2-96c8-aa8313484c6e.png)
 
-<img src='https://user-images.githubusercontent.com/50973575/203847033-928cd84a-2301-4d81-9ffd-b0adcc293e8b.png' width='160px' > <img src='https://user-images.githubusercontent.com/50973575/203847037-3c88cd19-fb3b-42ff-a046-b9d274c42b20.png' width='160px' > <img src='https://user-images.githubusercontent.com/50973575/203847040-7394e32d-6ba9-4e48-968a-0f4930cdaa25.png' width='160px' > <img src='https://user-images.githubusercontent.com/50973575/203847041-ed238bec-9717-450b-b551-53d8862151b8.png' width='160px' > <img src='https://user-images.githubusercontent.com/50973575/203847044-780f0526-3c45-4ae0-a575-0c1eda4c6c28.png' width='160px' > <img src='https://user-images.githubusercontent.com/50973575/203847662-e458909a-6810-46b4-aa9f-8220f40a5253.png' width='160px' >
+| :sparkles: Design responsivo, chat um para um e chat em grupo :sparkles: |
+|---|
+| ![APP_FULLSCREEN](https://user-images.githubusercontent.com/50973575/203847038-ed899369-fc18-4ca2-96c8-aa8313484c6e.png) |
+
+| :sparkles: Notificações e indicador de digitação | :sparkles: Criar chat em grupo | :sparkles: Buscar usuário por nome/email |
+|--|--|--|
+|<img src="https://user-images.githubusercontent.com/50973575/206700865-69288e42-a041-4dd6-9b34-c1a7539a2c1d.png" /> | <img src='https://user-images.githubusercontent.com/50973575/203847041-ed238bec-9717-450b-b551-53d8862151b8.png' /> | <img src='https://user-images.githubusercontent.com/50973575/203847044-780f0526-3c45-4ae0-a575-0c1eda4c6c28.png' /> |
+
+| :sparkles: Listar chats do usuário | :sparkles: Renomear e editar membros do chat | :sparkles: Criar uma conta com um avatar |
+|--|--|--|
+| <img src='https://user-images.githubusercontent.com/50973575/203847040-7394e32d-6ba9-4e48-968a-0f4930cdaa25.png' /> | <img src='https://user-images.githubusercontent.com/50973575/203847033-928cd84a-2301-4d81-9ffd-b0adcc293e8b.png' /> | <img src='https://user-images.githubusercontent.com/50973575/203847037-3c88cd19-fb3b-42ff-a046-b9d274c42b20.png' /> |
 
 ---
 
 # :monocle_face: Sobre o Projeto
 
-Este projeto tem o objetivo de facilitar a comunicação entre pessoas em tempo real, proporcionando uma experiência melhor para o cliente.
+Este projeto tem o objetivo de facilitar a comunicação em tempo real através de chats um para um e chat em grupo, proporcionando uma experiência melhor para o usuário.
 
 <br />
 
@@ -67,9 +76,9 @@ Este projeto tem o objetivo de facilitar a comunicação entre pessoas em tempo 
 
 ✅ [Cloudinary](https://cloudinary.com) - Usado para fazer o upload de imagens.
 
-✅ [Mongoose](https://mongoosejs.com) - Biblioteca usada para criar as conecções com o MongoDB.
+✅ [Mongoose](https://mongoosejs.com) - Biblioteca usada para a modelagem de dados de objeto para MongoDB e NodeJS.
 
-✅ [MongoDB](https://www.mongodb.com) - Sistema gerenciador de banco de dados noSQL.
+✅ [MongoDB](https://www.mongodb.com) - Sistema gerenciador de banco de dados NoSQL.
 
 ✅ [Lints] — ESlint/Prettier/EditorConfig
 
@@ -134,7 +143,7 @@ Você precisa criar um arquivo .env e adicionar a variável
 VITE_APP_API_CHAT_URL=http://localhost:5000
 ```
 
-A variável VITE_APP_API_CHAT_URL é usada como url base da api e para configurar o socket.io-client.
+A variável VITE_APP_API_CHAT_URL é usada como url base do servidor e para configurar o socket.io-client.
 
 Com isso já é possível iniciar o frontend web da aplicação
 
