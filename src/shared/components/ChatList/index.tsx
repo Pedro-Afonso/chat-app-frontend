@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
-import { ChatListHeader } from '../ChatListHeader'
+import { ChatListHeader } from './ChatListHeader'
 import { useChatList } from './useChatList'
 
 interface IConditionalDrawer {
