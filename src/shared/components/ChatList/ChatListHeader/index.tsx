@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 
-import { DialogAddGroup } from '../../DialogAddGroup'
+import { DialogAddGroup } from '../DialogAddGroup'
 
 export const ChatListHeader = () => {
   return (

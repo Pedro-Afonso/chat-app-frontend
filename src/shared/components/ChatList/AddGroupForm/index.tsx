@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
-import { AppSearchBar } from '../AppSearchBar'
+import { AppSearchBar } from '../../AppSearchBar'
 import { useAddGroupForm } from './useAddGroupForm'
 
 interface IAddGroupFormProps {

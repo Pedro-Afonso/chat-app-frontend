@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { useAppSelector, useAppDispatch } from '../../hooks'
-import { createGroupChat } from '../../slices/chatSlice'
+import { useAppSelector, useAppDispatch } from '../../../hooks'
+import { createGroupChat } from '../../../slices/chatSlice'
 
 export const useAddGroupForm = (closeModal: () => void) => {
   const dispatch = useAppDispatch()
