@@ -1,8 +1,8 @@
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import { AppSocketProvider } from './shared/Contexts/SocketContext'
-import { AppThemeProvider } from './shared/Contexts/ThemeContext'
+import { AppSocketProvider } from './shared/contexts/SocketContext'
+import { AppThemeProvider } from './shared/contexts/ThemeContext'
 import { AppSnackBar } from './shared/components'
 import { store } from './shared/store'
 import { AppRoutes } from './routes'

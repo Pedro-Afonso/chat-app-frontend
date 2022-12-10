@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { socket } from '../Contexts/SocketContext'
+import { socket } from '../contexts/SocketContext'
 import { TMessage, IAuthState, IMessageState } from '../interface'
 import { messageService } from '../services'
 
