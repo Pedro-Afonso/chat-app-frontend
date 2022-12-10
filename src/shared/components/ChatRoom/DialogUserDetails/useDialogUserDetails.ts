@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAppSelector } from '../../hooks'
+import { useAppSelector } from '../../../hooks'
 
 export const useDialogUserDetails = () => {
   const [modal, setModal] = useState(false)

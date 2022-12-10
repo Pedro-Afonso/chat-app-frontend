@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
 import { DialogGroupDetails } from './DialogGroupDetails'
-import { DialogUserDetails } from '../DialogUserDetails'
+import { DialogUserDetails } from './DialogUserDetails'
 import { SendMessageForm } from '../SendMessageForm'
 import { ChatMessages } from '../ChatMessages'
 import { useChatRoom } from './useChatRoom'
