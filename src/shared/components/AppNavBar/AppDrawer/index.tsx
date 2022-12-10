@@ -11,7 +11,7 @@ import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
 import { useAppDrawer } from './useAppDrawer'
-import { AppSearchBar } from '../AppSearchBar'
+import { AppSearchBar } from '../../AppSearchBar'
 
 export const AppDrawer = () => {
   const {

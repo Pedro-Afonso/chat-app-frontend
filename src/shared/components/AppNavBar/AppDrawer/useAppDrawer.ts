@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { accessChat } from '../../slices/chatSlice'
+import { useAppDispatch, useAppSelector } from '../../../hooks'
+import { accessChat } from '../../../slices/chatSlice'
 
 export const useAppDrawer = () => {
   const dispatch = useAppDispatch()

@@ -8,9 +8,9 @@ import AppBar from '@mui/material/AppBar'
 import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
-import { useAppNavBar } from './useAppNavBar'
-import { AppDrawer } from '../../components'
 import { Notifications } from '../Notifications'
+import { useAppNavBar } from './useAppNavBar'
+import { AppDrawer } from './AppDrawer'
 
 export const AppNavBar = () => {
   const {
