@@ -20,9 +20,9 @@ import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { addToGroup } from '../../slices/chatSlice'
-import { AppSearchBar } from '../AppSearchBar'
+import { useAppDispatch, useAppSelector } from '../../../hooks'
+import { addToGroup } from '../../../slices/chatSlice'
+import { AppSearchBar } from '../../AppSearchBar'
 import { useDialogAddDetails } from './useDialogAddDetails'
 
 const SearchListMemo = memo(({ chatId }: { chatId: string }) => {
