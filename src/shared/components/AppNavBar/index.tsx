@@ -1,16 +1,15 @@
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
 import Avatar from '@mui/material/Avatar'
 import AppBar from '@mui/material/AppBar'
-import Menu from '@mui/material/Menu'
 import Box from '@mui/material/Box'
 
 import { Notifications } from '../Notifications'
 import { useAppNavBar } from './useAppNavBar'
 import { AppDrawer } from './AppDrawer'
+import { Options } from './Menu'
 
 export const AppNavBar = () => {
   const {
@@ -20,31 +19,6 @@ export const AppNavBar = () => {
     handleOpenUserMenu,
     handleCloseUserMenu
   } = useAppNavBar()
-
-  const renderMenu = (
-    <Menu
-      id="menu-appbar"
-      anchorEl={anchorElUser}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left'
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'left'
-      }}
-      open={Boolean(anchorElUser)}
-      onClose={handleCloseUserMenu}
-    >
-      {/* <MenuItem onClick={handleCloseUserMenu}>
-        <Typography textAlign="center">Meu Perfil</Typography>
-      </MenuItem> */}
-      <MenuItem onClick={logout}>
-        <Typography textAlign="center">Sair</Typography>
-      </MenuItem>
-    </Menu>
-  )
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -65,7 +39,6 @@ export const AppNavBar = () => {
               REAL-TIME-CHAT
             </Typography>
           </Box>
-
           <Box display="flex" justifyContent="end" flexGrow={1} gap={1}>
             <Notifications />
             <Tooltip title="Mais Opções">
@@ -76,7 +49,11 @@ export const AppNavBar = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMenu}
+      <Options
+        anchorElUser={anchorElUser}
+        logout={logout}
+        handleCloseUserMenu={handleCloseUserMenu}
+      />
     </Box>
   )
 }
