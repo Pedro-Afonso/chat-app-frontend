@@ -13,7 +13,7 @@ import Box from '@mui/material/Box'
 import { useAppDrawer } from './useAppDrawer'
 import { AppSearchBar } from '../../AppSearchBar'
 
-export const AppDrawer = () => {
+export const DrawerButton = () => {
   const {
     userList,
     anchorElNav,

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 
 import { NotificationButton } from './NotificationButton'
 import { AvatarButton } from './AvatarButton'
-import { AppDrawer } from './AppDrawer'
+import { DrawerButton } from './DrawerButton'
 
 export const AppNavBar = () => {
   return (
@@ -13,7 +13,7 @@ export const AppNavBar = () => {
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <AppDrawer />
+            <DrawerButton />
           </Box>
           <Box display="flex" justifyContent="center" flexGrow={1}>
             <Typography
