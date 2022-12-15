@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 
-import { Notifications } from '../Notifications'
+import { NotificationButton } from './NotificationButton'
 import { AvatarButton } from './AvatarButton'
 import { AppDrawer } from './AppDrawer'
 
@@ -28,7 +28,7 @@ export const AppNavBar = () => {
             </Typography>
           </Box>
           <Box display="flex" justifyContent="end" flexGrow={1} gap={1}>
-            <Notifications />
+            <NotificationButton />
             <AvatarButton />
           </Box>
         </Toolbar>
