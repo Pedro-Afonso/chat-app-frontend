@@ -5,22 +5,22 @@ import Menu from '@mui/material/Menu'
 import { INotification } from '../../../../slices/notificationSlice'
 
 interface INotificationsProps {
-  anchorElNot: null | HTMLElement
-  handleCloseNotMenu: () => void
+  anchorElNotification: null | HTMLElement
+  handleCloseNotificationMenu: () => void
   notifications: INotification[]
-  handleClick: (chatId: string) => () => void
+  handleClickNotification: (chatId: string) => () => void
 }
 
 export const Notifications: React.FC<INotificationsProps> = ({
-  anchorElNot,
-  handleCloseNotMenu,
+  anchorElNotification,
+  handleCloseNotificationMenu,
   notifications,
-  handleClick
+  handleClickNotification
 }) => {
   return (
     <Menu
       id="menu-appbar"
-      anchorEl={anchorElNot}
+      anchorEl={anchorElNotification}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left'
@@ -30,11 +30,11 @@ export const Notifications: React.FC<INotificationsProps> = ({
         vertical: 'top',
         horizontal: 'left'
       }}
-      open={Boolean(anchorElNot)}
-      onClose={handleCloseNotMenu}
+      open={Boolean(anchorElNotification)}
+      onClose={handleCloseNotificationMenu}
     >
       {notifications.map(({ name, messageId, chatId }) => (
-        <MenuItem key={messageId} onClick={handleClick(chatId)}>
+        <MenuItem key={messageId} onClick={handleClickNotification(chatId)}>
           <Typography textAlign="center">
             Você tem novas mensagens em {name}
           </Typography>
