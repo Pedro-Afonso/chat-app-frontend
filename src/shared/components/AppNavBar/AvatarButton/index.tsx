@@ -5,6 +5,9 @@ import Tooltip from '@mui/material/Tooltip'
 import Avatar from '@mui/material/Avatar'
 
 import { logout as logoutAction } from '../../../slices/userSlice'
+import { reset as resetChat } from '../../../slices/chatSlice'
+import { reset as resetMessages } from '../../../slices/messageSlice'
+import { reset as resetNotifications } from '../../../slices/notificationSlice'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { Options } from '../Menu'
 
@@ -14,7 +17,12 @@ export const AvatarButton = () => {
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
-  const logout = () => dispatch(logoutAction())
+  const logout = () => {
+    dispatch(resetNotifications())
+    dispatch(resetMessages())
+    dispatch(resetChat())
+    dispatch(logoutAction())
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
