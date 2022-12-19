@@ -95,6 +95,7 @@ export const userSlice = createSlice({
       state.error = null
     },
     logout: state => {
+      sessionStorage.removeItem('user')
       state.auth = null
       state.user = null
       state.users = []
