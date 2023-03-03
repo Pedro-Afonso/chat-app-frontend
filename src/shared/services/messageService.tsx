@@ -1,48 +1,35 @@
-import { TSendMessageRes, TAllMessageRes } from '../interface/IMessage'
-import { tryCatchService } from '../utils'
-import { Api } from './api'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Environment } from '../environment'
+import { RootState } from '../store'
+import { TMessage } from '../types'
 
-// Send message to chat
-const sendMessage = (token: string, chatId: string, content: string) => {
-  return tryCatchService(async () => {
-    const postData = {
-      content,
-      chatId
-    }
+export const messageApiSlice = createApi({
+  reducerPath: 'messageApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: Environment.messagesBaseUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).user.auth?.token
 
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
       }
+
+      return headers
     }
+  }),
 
-    const { data } = await Api.post<TSendMessageRes>(
-      '/api/messages/',
-      postData,
-      config
-    )
-
-    return data
+  endpoints: builder => ({
+    sendMessage: builder.mutation<any, { chatId: string; content: string }>({
+      query: body => ({ url: '/', method: 'POST', body })
+    }),
+    getAllMessages: builder.query<
+      { chatMessages: TMessage[]; message: string },
+      { chatId?: string }
+    >({
+      query: ({ chatId }) => `chat/${chatId}`
+    })
   })
-}
+})
 
-// Get all message by chat id
-const getAllMessages = (token: string, chatId: string) => {
-  return tryCatchService(async () => {
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.get<TAllMessageRes>(
-      `/api/messages/chat/${chatId}`,
-
-      config
-    )
-
-    return data
-  })
-}
-
-export const messageService = { sendMessage, getAllMessages }
+export const { useSendMessageMutation, useGetAllMessagesQuery } =
+  messageApiSlice

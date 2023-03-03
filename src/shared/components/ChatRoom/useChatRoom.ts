@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 
 import { useSocket } from '../../hooks/useSocket'
 import { TMessage } from '../../interface'
-import { getAllMessages, receivedMessage } from '../../slices/messageSlice'
+import { receivedMessage } from '../../slices/messageSlice'
 import {
   addNotification,
   removeNotification
@@ -33,9 +33,9 @@ export const useChatRoom = () => {
 
   useEffect(() => {
     if (chat) {
-      dispatch(getAllMessages(chat._id))
+      getAllMessages({ chatId: chat._id })
     }
-  }, [dispatch, chat])
+  }, [getAllMessages, chat])
 
   useEffect(() => {
     socket.on('message received', handleMessageReceived)

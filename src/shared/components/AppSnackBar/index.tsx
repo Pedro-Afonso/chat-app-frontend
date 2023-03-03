@@ -3,9 +3,6 @@ import Stack from '@mui/material/Stack'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertColor, AlertProps } from '@mui/material/Alert'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { clearChatMessage, clearChatError } from '../../slices/chatSlice'
-import { clearMessageError } from '../../slices/messageSlice'
-import { clearUserError } from '../../slices/userSlice'
 
 interface IBasicSnackbarProps {
   message: string | null

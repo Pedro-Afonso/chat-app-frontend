@@ -1,6 +1,6 @@
 import { styled, alpha } from '@mui/material/styles'
 import SearchIcon from '@mui/icons-material/Search'
-import { useAppSearchBar } from './useAppSearchBar'
+import { useSearchBar } from './useSearchBar'
 import InputBase from '@mui/material/InputBase'
 
 const SearchField = styled('div')(({ theme }) => ({
@@ -34,8 +34,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }))
 
-export const AppSearchBar = () => {
-  const { query, setQuery } = useAppSearchBar()
+interface ISearchBarProps {
+  triggerSearch: any
+  placeholder?: string
+  ariaLabel?: string
+}
+
+export const SearchBar: React.FC<ISearchBarProps> = ({
+  triggerSearch,
+  placeholder = 'Digite o nome ou email...',
+  ariaLabel = 'Campo de busca'
+}) => {
+  const { query, setQuery } = useSearchBar({ triggerSearch })
 
   return (
     <SearchField>
@@ -46,8 +56,8 @@ export const AppSearchBar = () => {
         autoComplete="off"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        placeholder="Digite o nome ou email..."
-        inputProps={{ 'aria-label': 'search' }}
+        placeholder={placeholder}
+        inputProps={{ 'aria-label': ariaLabel }}
       />
     </SearchField>
   )

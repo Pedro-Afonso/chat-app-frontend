@@ -3,7 +3,6 @@ import { useState } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 
-import { accessChat, selectChat } from '../../slices/chatSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { TUser } from '../../interface'
 

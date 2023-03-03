@@ -1,5 +1,4 @@
-export * from './AppNavBar'
-export * from './AppSearchBar'
+export * from './SearchBar'
 export * from './AppSnackBar'
 export * from './ChatList'
 export * from './ChatMessages'

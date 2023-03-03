@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IChatState, IAuthState, TChat } from '../interface'
-import { chatService } from '../services'
+import { IChatState } from '../interface'
+import { chatApiSlice } from '../services'
 
 const initialState: IChatState = {
   chats: [],
@@ -12,7 +12,7 @@ const initialState: IChatState = {
   message: null
 }
 
-// Fetch all users chat
+/* // Fetch all users chat
 export const getAllChatsByUser = createAsyncThunk<
   TChat[],
   void,
@@ -146,7 +146,7 @@ export const accessChat = createAsyncThunk<
   }
 
   return res
-})
+}) */
 
 export const chatSlice = createSlice({
   name: 'chat',
@@ -171,6 +171,7 @@ export const chatSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      /*
       .addCase(getAllChatsByUser.pending, state => {
         state.chats = []
         state.error = null
@@ -285,6 +286,25 @@ export const chatSlice = createSlice({
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
+  } */
+      .addMatcher(
+        chatApiSlice.endpoints.accessChat.matchFulfilled,
+        (state, { payload }) => {
+          if (!payload) {
+            throw new Error('Payload is undefined')
+          }
+          state.chat = payload.chat
+        }
+      )
+      .addMatcher(
+        chatApiSlice.endpoints.getAllChatsByUser.matchFulfilled,
+        (state, { payload }) => {
+          if (!payload) {
+            throw new Error('Payload is undefined')
+          }
+          state.chats = payload
+        }
+      )
   }
 })
 
@@ -296,4 +316,5 @@ export const {
   clearChatError,
   setChatError
 } = chatSlice.actions
+
 export const { reducer: chatReducer } = chatSlice

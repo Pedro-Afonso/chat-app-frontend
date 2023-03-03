@@ -1,133 +1,75 @@
-import { TGetAllChatsByUserRes, TCreateGroupChatRes } from '../interface'
-import { tryCatchService } from '../utils'
-import { Api } from './api'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Environment } from '../environment'
+import { RootState } from '../store'
+import { TChat } from '../types'
 
-// Fetch all users chat
-const getAllChatsByUser = (token: string) => {
-  return tryCatchService(async () => {
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
+export const chatApiSlice = createApi({
+  reducerPath: 'chatApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: Environment.chatsBaseUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).user.auth?.token
+
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
       }
-    }
-    const { data } = await Api.get<TGetAllChatsByUserRes>('/api/chats/', config)
 
-    return data
+      return headers
+    }
+  }),
+
+  endpoints: builder => ({
+    accessChat: builder.mutation<
+      { chat: TChat; message: string },
+      { userId: string }
+    >({
+      query: body => ({ url: '/', method: 'POST', body })
+    }),
+    getAllChatsByUser: builder.query<TChat[], void>({
+      query: () => '/'
+    }),
+    createGroupChat: builder.mutation<
+      { chat: TChat; message: string },
+      { name: string; users: string[] }
+    >({
+      query: body => ({ url: '/group', method: 'POST', body })
+    }),
+    addToGroup: builder.mutation<
+      { chat: TChat; message: string },
+      { chatId: string; userId: string }
+    >({
+      query: ({ chatId, userId }) => ({
+        url: `group/${chatId}/users/${userId}`,
+        method: 'PUT'
+      })
+    }),
+    removeUser: builder.mutation<
+      { chat: TChat; message: string },
+      { chatId: string; userId: string }
+    >({
+      query: ({ chatId, userId }) => ({
+        url: `group/${chatId}/users/${userId}`,
+        method: 'DELETE'
+      })
+    }),
+    renameGroup: builder.mutation<
+      { chat: TChat; message: string },
+      { chatId: string; newChatName: string }
+    >({
+      query: ({ chatId, newChatName }) => ({
+        url: `group/${chatId}}`,
+        method: 'PUT',
+        body: { newChatName }
+      })
+    })
   })
-}
+})
 
-// Create a new group chat
-const createGroupChat = (token: string, name: string, users: string[]) => {
-  return tryCatchService(async () => {
-    const postData = {
-      name,
-      users
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.post<TCreateGroupChatRes>(
-      '/api/chats/group/',
-      postData,
-      config
-    )
-
-    return data
-  })
-}
-
-// Add user to chat
-const addToGroup = (token: string, chatId: string, userId: string) => {
-  return tryCatchService(async () => {
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.put<TCreateGroupChatRes>(
-      `/api/chats/group/${chatId}/users/${userId}`,
-      null,
-      config
-    )
-
-    return data
-  })
-}
-
-// Remove member from chat
-const removeUser = (token: string, chatId: string, userId: string) => {
-  return tryCatchService(async () => {
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.delete<TCreateGroupChatRes>(
-      `/api/chats/group/${chatId}/users/${userId}`,
-      config
-    )
-
-    return data
-  })
-}
-
-// Rename group chat
-const renameGroup = (token: string, chatId: string, newChatName: string) => {
-  return tryCatchService(async () => {
-    const putData = {
-      newChatName
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.put<TCreateGroupChatRes>(
-      `/api/chats/group/${chatId}`,
-      putData,
-      config
-    )
-
-    return data
-  })
-}
-
-// Create or fetch one to one chat
-const accessChat = (token: string, userId: string) => {
-  return tryCatchService(async () => {
-    const postData = {
-      userId
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    }
-
-    const { data } = await Api.post<TCreateGroupChatRes>(
-      '/api/chats/',
-      postData,
-      config
-    )
-
-    return data
-  })
-}
-
-export const chatService = {
-  getAllChatsByUser,
-  createGroupChat,
-  addToGroup,
-  removeUser,
-  renameGroup,
-  accessChat
-}
+export const {
+  useGetAllChatsByUserQuery,
+  useCreateGroupChatMutation,
+  useAddToGroupMutation,
+  useRemoveUserMutation,
+  useRenameGroupMutation,
+  useAccessChatMutation
+} = chatApiSlice

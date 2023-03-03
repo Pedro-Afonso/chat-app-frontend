@@ -13,7 +13,6 @@ import Avatar from '@mui/material/Avatar'
 import List from '@mui/material/List'
 import Chip from '@mui/material/Chip'
 
-import { AppSearchBar } from '../../AppSearchBar'
 import { useAddGroupForm } from './useAddGroupForm'
 
 interface IAddGroupFormProps {
@@ -41,7 +40,7 @@ export const AddGroupForm: React.FC<IAddGroupFormProps> = ({ closeModal }) => {
           size="small"
           sx={{ mb: 2 }}
         />
-        <AppSearchBar />
+        {/* <AppSearchBar /> */}
         <Divider />
         <Stack direction="row" flexWrap={'wrap'} gap={1}>
           {addData.map(({ id, name }) => (

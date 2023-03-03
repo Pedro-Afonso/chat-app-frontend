@@ -1,55 +1,46 @@
-import { ILoginForm, TAuthRes, TCurrentUserRes, TSearchRes } from '../interface'
-import { tryCatchService } from '../utils'
-import { Api } from './api'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Environment } from '../environment'
+import { RootState } from '../store'
+import { TLoginForm, TUser } from '../types'
 
-// Register a user and sign in
-const register = async (user: FormData) => {
-  return tryCatchService(async () => {
-    const { data } = await Api.post<TAuthRes>('/api/users/', user)
+export const userApiSlice = createApi({
+  reducerPath: 'userApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: Environment.usersBaseUrl,
+    prepareHeaders: (headers, { getState, endpoint }) => {
+      const token = (getState() as RootState).user.auth?.token
 
-    if ('token' in data) {
-      sessionStorage.setItem('user', JSON.stringify(data))
-    }
-    return data
-  })
-}
-
-// Login with email and password
-const login = async (user: ILoginForm) => {
-  return tryCatchService(async () => {
-    const { data } = await Api.post<TAuthRes>('/api/users/login', user)
-
-    if ('token' in data) {
-      sessionStorage.setItem('user', JSON.stringify(data))
-    }
-    return data
-  })
-}
-
-// Get the logged in user's profile information
-const getCurrentUser = async (token: string) => {
-  return tryCatchService(async () => {
-    const { data } = await Api.get<TCurrentUserRes>('/api/users/', {
-      headers: {
-        Authorization: `Basic ${token}`
+      if (endpoint === ('register' || 'login')) {
+        return headers
       }
-    })
 
-    return data
-  })
-}
-
-// Search for users by name or email
-const searchUsers = async (token: string, query: string) => {
-  return tryCatchService(async () => {
-    const { data } = await Api.get<TSearchRes>(`/api/users/search?q=${query}`, {
-      headers: {
-        Authorization: `Basic ${token}`
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
       }
+
+      return headers
+    }
+  }),
+  endpoints: builder => ({
+    register: builder.mutation<any, { user: FormData }>({
+      query: ({ user }) => ({ url: '/', method: 'POST', body: user })
+    }),
+    login: builder.mutation<any, TLoginForm>({
+      query: body => ({ url: '/login', method: 'POST', body })
+    }),
+    getCurrentUser: builder.query<TUser, void>({
+      query: () => '/'
+    }),
+    searchUsers: builder.query<TUser[], { query?: string }>({
+      query: ({ query }) => `search?q=${query}`
     })
-
-    return data
   })
-}
+})
 
-export const userService = { register, login, getCurrentUser, searchUsers }
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useGetCurrentUserQuery,
+  useSearchUsersQuery,
+  useLazySearchUsersQuery
+} = userApiSlice

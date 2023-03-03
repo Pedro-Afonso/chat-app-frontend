@@ -1,7 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { socket } from '../contexts/SocketContext'
-import { TMessage, IAuthState, IMessageState } from '../interface'
-import { messageService } from '../services'
+
+import { TMessage, IMessageState } from '../interface'
+import { messageApiSlice } from '../services'
+import { EVENTS } from '../utils/constants'
 
 const initialState: IMessageState = {
   chatMessage: null,
@@ -12,7 +14,7 @@ const initialState: IMessageState = {
   message: null
 }
 
-// Send message to chat
+/* // Send message to chat
 export const sendMessage = createAsyncThunk<
   { chatMessage: TMessage; message: string },
   { content: string; chatId: string },
@@ -56,21 +58,34 @@ export const getAllMessages = createAsyncThunk<
   }
 
   return res
-})
+}) */
 
 export const messageSlice = createSlice({
   name: 'message',
   initialState,
   reducers: {
     reset: () => initialState,
-    clearMessageError: state => {
-      state.error = null
-    },
     receivedMessage: (state, action: PayloadAction<TMessage>) => {
       state.chatMessages.unshift(action.payload)
     }
   },
   extraReducers: builder => {
+    builder
+      .addMatcher(
+        messageApiSlice.endpoints.getAllMessages.matchFulfilled,
+        (state, { payload }) => {
+          state.chatMessages = payload.chatMessages
+        }
+      )
+      .addMatcher(
+        messageApiSlice.endpoints.sendMessage.matchFulfilled,
+        (state, { payload }) => {
+          state.chatMessages.unshift(payload.chatMessage)
+          socket.emit(EVENTS.CLIENT.SEND_MESSAGE, payload.chatMessage)
+        }
+      )
+  }
+  /*  extraReducers: builder => {
     builder
       .addCase(sendMessage.pending, state => {
         state.error = null
@@ -101,9 +116,8 @@ export const messageSlice = createSlice({
         state.error = action.payload ? action.payload : null
         state.loading = false
       })
-  }
+  } */
 })
 
-export const { reset, receivedMessage, clearMessageError } =
-  messageSlice.actions
+export const { reset, receivedMessage } = messageSlice.actions
 export const { reducer: messageReducer } = messageSlice

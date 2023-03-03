@@ -6,8 +6,11 @@ import {
   RegisterForm,
   LoginForm
 } from '../../shared/components'
-import { useAppDispatch, useAppSelector } from '../../shared/hooks'
-import { login, register } from '../../shared/slices/userSlice'
+
+import {
+  useLoginMutation,
+  useRegisterMutation
+} from '../../shared/services/userService'
 
 interface IFormProps {
   name: string
@@ -17,11 +20,10 @@ interface IFormProps {
 }
 
 const BackdropHome = () => {
-  const userLoading = useAppSelector(state => state.user.loading)
   return (
     <Backdrop
       sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-      open={userLoading}
+      open={false}
     >
       <CircularProgress color="inherit" />
     </Backdrop>
@@ -29,14 +31,15 @@ const BackdropHome = () => {
 }
 
 export const Home = () => {
-  const dispatch = useAppDispatch()
+  const [login] = useLoginMutation()
+  const [register] = useRegisterMutation()
 
   const handleLogin = (data: Omit<IFormProps, 'name' | 'confirmPassword'>) => {
-    dispatch(login(data))
+    login(data)
   }
 
   const handleRegister = (data: FormData) => {
-    dispatch(register(data))
+    register({ user: data })
   }
 
   return (

@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 
 import { useSocket } from '../../hooks/useSocket'
 import { useAppSelector } from '../../hooks'
+import { EVENTS } from '../../utils/constants'
 
 const Dot = ({ delay }: { delay: number }) => {
   const animation = keyframes`
@@ -43,10 +44,12 @@ export const Typing = () => {
   const [isTyping, setIsTyping] = useState(false)
 
   const handleTyping = useCallback(() => {
+    console.log('received typing')
     setIsTyping(true)
   }, [])
 
   const handleStopTyping = useCallback(() => {
+    console.log('received stopTyping')
     setIsTyping(false)
   }, [])
 
@@ -57,12 +60,14 @@ export const Typing = () => {
   }, [chat])
 
   useEffect(() => {
-    socket.on('typing', handleTyping)
-    socket.on('stop typing', handleStopTyping)
+    console.log('socketOn')
+    socket.on(EVENTS.SERVER.STARTED_TYPING, handleTyping)
+    socket.on(EVENTS.SERVER.STOPPED_TYPING, handleStopTyping)
 
     return () => {
-      socket.off('typing', handleTyping)
-      socket.off('stop typing', handleStopTyping)
+      socket.off(EVENTS.SERVER.STARTED_TYPING, handleTyping)
+      socket.off(EVENTS.SERVER.STOPPED_TYPING, handleStopTyping)
+      console.log('socketOff')
     }
   }, [socket, handleTyping, handleStopTyping])
 

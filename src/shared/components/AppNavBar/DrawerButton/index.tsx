@@ -11,7 +11,6 @@ import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 
 import { useAppDrawer } from './useAppDrawer'
-import { AppSearchBar } from '../../AppSearchBar'
 
 export const DrawerButton = () => {
   const {
@@ -35,9 +34,7 @@ export const DrawerButton = () => {
         <SearchIcon />
       </IconButton>
       <Drawer anchor="left" open={!!anchorElNav} onClose={handleCloseNavMenu}>
-        <ListItem>
-          <AppSearchBar />
-        </ListItem>
+        <ListItem>{/* <AppSearchBar /> */}</ListItem>
         <Divider />
         <Box
           sx={{ width: 300 }}

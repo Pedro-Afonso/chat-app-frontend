@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { removeUser, renameGroup } from '../../../slices/chatSlice'
 
 export const useDialogAddDetails = () => {
   const [groupName, setGroupName] = useState('')

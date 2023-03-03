@@ -6,7 +6,6 @@ import Send from '@mui/icons-material/Send'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { sendMessage } from '../../slices/messageSlice'
 import { useSocket } from '../../hooks/useSocket'
 import { TChat } from '../../interface'
 
